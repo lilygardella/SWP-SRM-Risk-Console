@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Risk & Initiative Console — Mockup</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #023A53; --blue: #046B99; --blue-light: #3689AD;
+    --sky-50: #EEF8FB; --sky-100: #E2F3F8;
+    --slate: #323A45; --slate-soft: #5B616A;
+    --line: #D7E6EC; --line-soft: #E6F1F5;
+    --white: #FFFFFF;
+    --gold: #C9971E; --gold-soft: rgba(201,151,30,0.14);
+    --green: #2E7D4F; --green-soft: rgba(46,125,79,0.10);
+    --amber: #B5790F; --amber-soft: rgba(181,121,15,0.10);
+    --red: #9E2E23; --red-soft: rgba(158,46,35,0.10);
+    --slate-tint: rgba(91,97,106,0.10);
+    /* Official SWP categorization colors, from the little icons on slide 7 of the
+       May 2026 SRM Council Facilitation Materials */
+    --cat-immediate: #023047;
+    --cat-elevated: #219EBC;
+    --cat-continued: #FFB703;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ background: var(--sky-50); color: var(--slate); font-family: 'Inter', sans-serif; min-height: 100vh; padding: 0 0 50px; }
+  .mono{ font-family: 'IBM Plex Mono', monospace; }
+  .wrap{ max-width: 1440px; margin: 0 auto; padding: 0 32px; }
+
+  .agency-band{ background: var(--navy); color: #CFE6EF; font-family:'IBM Plex Mono', monospace; font-size: 11px; letter-spacing:0.04em; padding: 7px 0; }
+  .agency-band .wrap{ display:flex; align-items:center; gap:8px; }
+  .agency-band .drop{ width:9px; height:9px; }
+
+  header{ background: var(--white); border-bottom: 1px solid var(--line); padding: 18px 0 16px; }
+  header .wrap{ display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+  .header-left{ display:flex; align-items:center; gap:14px; }
+  .dwr-mark{ width:42px; height:42px; border-radius:10px; background: var(--blue); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .agency-name{ font-family:'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: var(--blue); text-transform: uppercase; margin-bottom: 3px; display:block; font-weight:600; }
+  h1{ font-family:'Source Serif 4', serif; font-weight:600; font-size: 25px; letter-spacing: -0.01em; color: var(--navy); }
+  .header-meta{ display:flex; gap:22px; align-items:center; font-size:11.5px; color: var(--slate-soft); }
+  .live-dot{ width:7px; height:7px; border-radius:50%; background: var(--green); display:inline-block; margin-right:7px; box-shadow: 0 0 0 3px var(--green-soft); }
+
+  .content{ padding-top: 20px; }
+
+  .tabbar{ display:flex; gap: 4px; margin-bottom: 18px; border-bottom: 1px solid var(--line); flex-wrap:wrap; }
+  .tab-btn{ font-family:'Inter', sans-serif; font-weight:600; font-size:13.5px; background: transparent; border:1px solid transparent; color: var(--slate-soft); padding: 10px 16px 11px; border-radius: 8px 8px 0 0; cursor:pointer; border-bottom: 2px solid transparent; margin-bottom:-1px; }
+  .tab-btn:hover{ color: var(--navy); }
+  .tab-btn.active{ color: var(--navy); background: var(--white); border: 1px solid var(--line); border-bottom: 2px solid var(--blue); }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; animation: fadeIn .2s ease; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(3px);} to{opacity:1; transform:none;} }
+
+  .section-label{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color: var(--blue); font-weight:600; margin: 22px 0 10px; display:flex; align-items:center; gap:10px; }
+  .section-label:first-child{ margin-top:0; }
+  .section-note{ font-family:'Inter',sans-serif; font-size:10.5px; letter-spacing:0; text-transform:none; color: var(--slate-soft); font-weight:400; }
+
+  /* ===== Executive Summary — narrative sections ===== */
+  .story-label{ font-family:'Source Serif 4', serif; font-weight:700; font-size:17px; color: var(--navy); margin: 26px 0 3px; }
+  .story-label:first-child{ margin-top:0; }
+  .story-sub{ font-size:12px; color: var(--slate-soft); margin-bottom:14px; }
+  .story-connector{ text-align:center; font-family:'IBM Plex Mono',monospace; font-size:11px; color: var(--blue-light); margin:16px 0; letter-spacing:0.02em; }
+
+  .goal-strip{ display:grid; grid-template-columns: repeat(5, 1fr); gap:12px; }
+  .goal-tile{ background: var(--navy); border-radius:12px; padding:16px 14px; display:flex; flex-direction:column; gap:10px; min-height:118px; }
+  .goal-num{ width:24px; height:24px; border-radius:50%; background: rgba(255,255,255,0.15); color:#fff; font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; }
+  .goal-name{ color:#fff; font-family:'Inter',sans-serif; font-weight:600; font-size:12.5px; line-height:1.4; }
+
+  .bucket-strip{ display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; }
+  .bucket-card{ background: var(--white); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .bucket-head{ padding:14px 16px; display:flex; align-items:baseline; justify-content:space-between; }
+  .bucket-head-name{ font-family:'Source Serif 4', serif; font-weight:700; font-size:15.5px; color:#fff; }
+  .bucket-head-count{ font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700; color:#fff; }
+  .bucket-body{ padding:14px 16px; }
+  .bucket-body-label{ font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.07em; text-transform:uppercase; color: var(--slate-soft); margin-bottom:8px; }
+  .bucket-trend-row{ display:flex; flex-direction:column; gap:6px; }
+  .bucket-trend-item{ display:flex; align-items:center; justify-content:space-between; font-size:12px; }
+  .bucket-trend-item .cnt{ font-family:'IBM Plex Mono',monospace; font-weight:700; }
+
+  .summary-insight{ font-size:12px; color: var(--slate-soft); margin-top:10px; background: var(--sky-50); border:1px solid var(--line); border-radius:8px; padding:10px 14px; }
+
+  .mini-trend-list{ display:flex; flex-direction:column; gap:8px; }
+  .mini-trend-item{ display:flex; align-items:center; gap:12px; background: var(--white); border:1px solid var(--line); border-radius:9px; padding:11px 14px; }
+  .mini-trend-item .sev-dot{ flex-shrink:0; }
+  .mini-trend-headline{ font-family:'Source Serif 4', serif; font-weight:600; font-size:13px; color: var(--navy); flex:1; }
+  .mini-trend-meta{ font-size:10.5px; color: var(--slate-soft); white-space:nowrap; }
+
+  /* ===== Summary tiles (reused across Exec Overview / Risk Detail / Risk Response) ===== */
+  .tile-strip{ display:grid; gap: 12px; }
+  .tile-strip.n3{ grid-template-columns: repeat(3,1fr); }
+  .tile-strip.n4{ grid-template-columns: repeat(4,1fr); }
+  .tile-strip.n5{ grid-template-columns: repeat(5,1fr); }
+  .stat-tile{ background: var(--white); border:1px solid var(--line); border-radius: 10px; padding: 12px 18px; display:flex; align-items:baseline; gap:12px; }
+  .stat-tile.pending{ border-style:dashed; }
+  .stat-num{ font-family:'Source Serif 4', serif; font-size: 30px; font-weight:700; line-height:1; }
+  .stat-num.off{ color: var(--red); } .stat-num.risk{ color: var(--amber); } .stat-num.on{ color: var(--green); } .stat-num.neutral{ color: var(--navy); } .stat-num.pend{ color: var(--slate-soft); }
+  .stat-label{ font-size: 12px; color: var(--slate); font-weight:600; line-height:1.3; }
+
+  /* ===== Categorization panels ===== */
+  .tier-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .tier-card{ background: var(--white); border:1px solid var(--line); border-radius: 10px; padding: 14px 16px; display:flex; flex-direction:column; gap:9px; }
+  .tier-eyebrow{ font-family:'IBM Plex Mono', monospace; font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; color: var(--slate-soft); }
+  .tier-title{ font-family:'Source Serif 4', serif; font-weight:600; font-size:16px; color: var(--navy); margin-top:1px; }
+  .tier-chips{ display:flex; flex-wrap:wrap; gap:5px; margin-top:2px; }
+  .tier-chip{ font-size:10px; padding:3px 8px; border-radius:20px; background: var(--cat-immediate); color: #fff; font-weight:600; cursor:default; }
+  .tier-chip.c2{ background: var(--cat-elevated); color: #fff; }
+  .tier-chip.c3{ background: var(--cat-continued); color: var(--navy); }
+
+  .metric-row-top{ display:flex; align-items:baseline; justify-content:space-between; font-size:11px; margin-bottom:4px; }
+  .metric-row-name{ font-weight:700; color: var(--slate); }
+  .metric-row-counts span{ font-family:'IBM Plex Mono', monospace; font-weight:600; margin-left:6px; font-size:10.5px; }
+  .metric-row-counts .c-off{ color: var(--red); } .metric-row-counts .c-risk{ color: var(--amber); } .metric-row-counts .c-on{ color: var(--green); }
+  .seg-bar{ display:flex; height:6px; border-radius:20px; overflow:hidden; background: var(--sky-100); margin-bottom:8px; }
+  .seg{ height:100%; }
+  .seg-off{ background: var(--red); } .seg-risk{ background: var(--amber); } .seg-on{ background: var(--green); }
+
+  /* ===== Risk table (Exec Overview) ===== */
+  .panel-box{ background: var(--white); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .risk-table{ width:100%; border-collapse:collapse; font-size:12px; }
+  .risk-table th{ text-align:left; font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.05em; text-transform:uppercase; color: var(--slate-soft); padding:10px 12px; border-bottom:1px solid var(--line); background:var(--sky-50); }
+  .risk-table td{ padding:10px 12px; border-bottom:1px solid var(--line-soft); vertical-align:middle; }
+  .risk-table tr:last-child td{ border-bottom:none; }
+  .risk-table tr:hover td{ background: var(--sky-50); }
+  .rt-num{ font-family:'IBM Plex Mono',monospace; color: var(--slate-soft); font-weight:600; }
+  .rt-name{ font-weight:700; color: var(--navy); font-size:12.5px; cursor:help; }
+  .rt-domain{ font-size:9.5px; color: var(--slate-soft); }
+  .rt-lead{ font-size:10.5px; color: var(--slate-soft); }
+  .rt-lead.pend{ font-style:italic; color:#9AA5AD; }
+  .cat-badge{ font-family:'IBM Plex Mono', monospace; font-size:9px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; padding:3px 7px; border-radius:5px; white-space:nowrap; }
+  .cat-immediate{ background: var(--cat-immediate); color: #fff; }
+  .cat-elevated{ background: var(--cat-elevated); color: #fff; }
+  .cat-continued{ background: var(--cat-continued); color: var(--navy); }
+  .status-pill{ font-family:'IBM Plex Mono', monospace; font-size:10px; font-weight:700; padding:3px 8px; border-radius:20px; white-space:nowrap; }
+  .status-off{ background: var(--red-soft); color: var(--red); } .status-risk{ background: var(--amber-soft); color: var(--amber); } .status-on{ background: var(--green-soft); color: var(--green); }
+  .rt-trend{ font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; white-space:nowrap; cursor:help; }
+  .trend-inc{ color: var(--red); } .trend-nochange{ color: var(--slate-soft); } .trend-dec{ color: var(--green); } .trend-pend{ color:#9AA5AD; font-style:italic; font-weight:400; }
+  .spark-svg{ flex-shrink:0; }
+
+  /* ===== Risk Detail accordion ===== */
+  .accordion-row{ border-bottom:1px solid var(--line-soft); }
+  .accordion-row:last-child{ border-bottom:none; }
+  .accordion-head{ display:flex; align-items:center; gap:12px; padding:13px 16px; cursor:pointer; }
+  .accordion-head:hover{ background: var(--sky-50); }
+  .accordion-caret{ font-family:'IBM Plex Mono',monospace; color: var(--blue); font-size:11px; transition: transform .15s ease; flex-shrink:0; width:12px; }
+  .accordion-row.open .accordion-caret{ transform: rotate(90deg); }
+  .accordion-name{ font-weight:700; color: var(--navy); font-size:13.5px; flex:1; }
+  .accordion-domain{ font-size:10px; color: var(--slate-soft); width:110px; }
+  .accordion-detail{ display:none; padding:0 16px 18px 40px; }
+  .accordion-row.open .accordion-detail{ display:block; }
+  .ad-reason{ font-size:11.5px; color: var(--slate-soft); font-style:italic; line-height:1.5; margin-bottom:10px; max-width:820px; }
+  .ad-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; max-width:820px; }
+  .ad-block-label{ font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color: var(--blue); font-weight:600; margin-bottom:5px; }
+  .ad-kri-name, .ad-kpi-name{ font-size:11.5px; color: var(--slate-soft); margin-bottom:6px; }
+  .ad-kpi-track{ height:6px; border-radius:20px; background:var(--sky-100); overflow:hidden; margin-bottom:4px; }
+  .ad-kpi-fill{ height:100%; border-radius:20px; }
+  .ad-pending-tag{ display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.04em; background: var(--slate-tint); color: var(--slate-soft); padding:2px 8px; border-radius:20px; margin-left:8px; }
+
+  /* ===== Activity Progress chart ===== */
+  .chart-panel{ background: var(--white); border:1px solid var(--line); border-radius:10px; padding:18px; display:grid; grid-template-columns: 210px 1fr; gap:18px; }
+  .fast-facts-title{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.08em; text-transform:uppercase; color: var(--blue); font-weight:600; margin-bottom:10px; }
+  .fast-fact{ font-size:11.5px; color: var(--slate-soft); line-height:1.5; padding-left:11px; position:relative; margin-bottom:8px; }
+  .fast-fact::before{ content:'—'; position:absolute; left:0; color: var(--blue-light); }
+  .chart-legend{ display:flex; gap:14px; flex-wrap:wrap; margin-top:6px; font-size:10.5px; color: var(--slate-soft); }
+  .chart-legend .legend-dot-row{ display:flex; align-items:center; gap:5px; }
+  .legend-sq{ width:9px; height:9px; border-radius:2px; }
+
+  /* ===== Activity list ===== */
+  .activity-head{ display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer; }
+  .activity-head:hover{ background: var(--sky-50); }
+  .activity-owner{ font-size:10.5px; color: var(--slate-soft); width:150px; }
+  .activity-status-col{ width:90px; }
+  .activity-linked-col{ display:flex; gap:5px; flex-wrap:wrap; width:220px; }
+  .activity-detail{ display:none; padding:0 16px 20px 40px; }
+  .accordion-row.open .activity-detail{ display:block; }
+  .sub-activity-table{ width:100%; border-collapse:collapse; font-size:11.5px; max-width:920px; }
+  .sub-activity-table th{ text-align:left; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.04em; text-transform:uppercase; color: var(--slate-soft); padding:7px 10px; border-bottom:1px solid var(--line); }
+  .sub-activity-table td{ padding:9px 10px; border-bottom:1px solid var(--line-soft); vertical-align:top; }
+  .sat-name{ font-weight:600; color: var(--slate); max-width:200px; }
+  .sat-notes{ color: var(--slate-soft); max-width:280px; line-height:1.45; }
+  .consequence-dots{ display:flex; gap:2px; }
+  .cq-dot{ width:7px; height:7px; border-radius:50%; background: var(--line); }
+  .cq-dot.on{ background: var(--red); }
+  .lead-flag{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; font-weight:700; padding:2px 7px; border-radius:20px; white-space:nowrap; }
+  .lead-flag.yes{ background: var(--red-soft); color: var(--red); } .lead-flag.no{ background: var(--slate-tint); color: var(--slate-soft); }
+  .assoc-risk-chip{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; padding:2px 7px; border-radius:5px; background: var(--sky-50); border:1px solid var(--line); color: var(--blue); white-space:nowrap; }
+
+  /* ===== Scenario tab (shared with prior build) ===== */
+  .scen-topbar{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:14px; flex-wrap:wrap; }
+  .scen-title{ font-family:'Source Serif 4', serif; font-weight:600; font-size:18px; color: var(--navy); }
+  .scen-sub{ font-size:11.5px; color: var(--slate-soft); margin-top:2px; }
+  .scen-meta{ display:flex; align-items:center; gap:12px; }
+  .live-pill{ display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; background: var(--green-soft); color: var(--green); padding:5px 11px; border-radius:20px; font-weight:600; }
+  .updated-text{ font-size:11.5px; color: var(--slate-soft); font-family:'IBM Plex Mono',monospace; }
+
+  .panel-head-bar{ background: var(--navy); color:#fff; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; font-weight:600; padding:8px 14px; }
+  .radar-signals-layout{ display:grid; grid-template-columns: 520px 1fr; gap:14px; margin-bottom:18px; align-items:stretch; }
+  .radar-panel, .signals-panel{ background: var(--white); border:1px solid var(--line); border-radius:10px; overflow:hidden; display:flex; flex-direction:column; }
+  .signals-panel table{ flex:1; }
+  .radar-body{ padding:16px; display:flex; gap:16px; align-items:flex-start; }
+  .radar-svg-wrap{ position:relative; flex-shrink:0; }
+  .radar-tooltip{ position:fixed; z-index:9999; background: var(--navy); color:#DDEBF1; border-radius:9px; padding:11px 13px; width:220px; font-size:11.5px; line-height:1.5; box-shadow:0 8px 22px rgba(2,58,83,0.28); pointer-events:none; opacity:0; transform:translateY(4px); transition: opacity .12s ease, transform .12s ease; }
+  .radar-tooltip.visible{ opacity:1; transform:translateY(0); }
+  .radar-tooltip-id{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.05em; text-transform:uppercase; color:#8FC2D6; margin-bottom:3px; }
+  .radar-tooltip-name{ font-family:'Source Serif 4', serif; font-weight:600; font-size:13px; color:#fff; margin-bottom:5px; }
+  .radar-tooltip-desc{ color:#C6DCE6; }
+  .radar-tooltip-status{ display:inline-block; margin-top:7px; font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.04em; padding:2px 8px; border-radius:20px; }
+  #radar-svg circle[data-bubble]{ cursor:pointer; }
+  .radar-legend{ font-size:12.5px; color: var(--slate-soft); display:flex; flex-direction:column; gap:10px; min-width:160px; max-width:175px; padding-top:6px; line-height:1.45; }
+  .radar-legend-title{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color: var(--slate-soft); margin-bottom:2px; }
+  .legend-dot-row{ display:flex; align-items:center; gap:6px; }
+  .legend-dot{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+  .radar-axis-label{ font-family:'IBM Plex Mono', monospace; font-size:9.5px; letter-spacing:0.04em; text-transform:uppercase; fill: var(--slate-soft); }
+
+  .signals-table{ width:100%; border-collapse:collapse; font-size:14.5px; height:100%; }
+  .signals-table th{ text-align:left; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color: var(--slate-soft); padding:14px 18px 12px; border-bottom:1px solid var(--line); }
+  .signals-table td{ padding:22px 18px; border-bottom:1px solid var(--line-soft); vertical-align:middle; }
+  .signals-table tr:last-child td{ border-bottom:none; }
+  .sig-num{ font-family:'IBM Plex Mono',monospace; font-weight:700; color: var(--slate-soft); font-size:15px; }
+  .sig-name{ font-weight:700; color: var(--navy); font-family:'Source Serif 4', serif; font-size:16px; }
+  .sig-axis{ font-size:12px; color: var(--slate-soft); margin-top:2px; }
+
+  .signpost-panel{ background: var(--white); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .signpost-panel-head{ background: var(--navy); padding: 16px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+  .signpost-panel-title{ color:#fff; font-family:'Source Serif 4',serif; font-weight:600; font-size:15.5px; display:flex; align-items:center; gap:10px; }
+  .signpost-panel-title .count-pill{ font-family:'IBM Plex Mono',monospace; font-size:10px; background: rgba(255,255,255,0.14); color:#DDEBF1; padding:3px 9px; border-radius:20px; font-weight:600; }
+  .cat-pill-row{ display:flex; gap:7px; flex-wrap:wrap; }
+  .cat-pill{ font-family:'Inter',sans-serif; font-size:12px; font-weight:600; padding:7px 14px; border-radius:20px; border:1px solid transparent; background: rgba(255,255,255,0.1); color:#CFE6EF; cursor:pointer; transition: background .12s ease, color .12s ease; }
+  .cat-pill:hover{ background: rgba(255,255,255,0.18); }
+  .cat-pill.active{ background: var(--white); color: var(--navy); }
+  .cat-pill .cnt{ font-family:'IBM Plex Mono',monospace; font-size:10px; opacity:0.75; margin-left:4px; }
+  .signpost-panel-body{ padding:20px; }
+  .synth-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; animation: fadeIn .2s ease; }
+  .synth-card{ border:1px solid var(--line); background: var(--sky-50); border-radius:10px; padding:13px 14px; transition: transform .12s ease, box-shadow .12s ease; }
+  .synth-card:hover{ transform: translateY(-2px); box-shadow: 0 6px 16px rgba(4,107,153,0.08); }
+  .synth-card-src{ font-family:'IBM Plex Mono', monospace; font-size:8.5px; letter-spacing:0.03em; text-transform:uppercase; color: var(--slate-soft); }
+  .synth-card-name{ font-size:12.5px; font-weight:700; color: var(--slate); margin:4px 0 7px; }
+  .synth-card-value{ font-family:'IBM Plex Mono', monospace; font-size:19px; font-weight:700; color: var(--red); }
+  .synth-card-sub{ font-size:10px; color: var(--slate-soft); margin-top:1px; margin-bottom:9px; }
+  .favor-line{ font-size:10.5px; color: var(--slate-soft); line-height:1.4; padding-top:9px; border-top:1px solid var(--line-soft); }
+  .favor-letters{ color: var(--blue); font-weight:700; font-family:'IBM Plex Mono', monospace; }
+
+  .scenario-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+  .scenario-card{ background: var(--white); border:1px solid var(--line); border-radius: 10px; padding: 14px 16px; display:flex; flex-direction:column; gap: 9px; }
+  .scenario-card.emerging{ border-color: var(--red); box-shadow: 0 0 0 1px rgba(158,46,35,0.15); }
+  .scenario-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .scenario-name{ font-family:'Source Serif 4', serif; font-weight:600; font-size:15.5px; color: var(--navy); }
+  .scenario-quadrant{ font-size: 10px; color: var(--slate-soft); font-family:'IBM Plex Mono',monospace; margin-top:1px; }
+  .activation-badge{ font-family:'IBM Plex Mono', monospace; display:flex; flex-direction:column; align-items:center; gap:1px; padding:6px 12px; border-radius:10px; white-space:nowrap; height:fit-content; }
+  .badge-label{ font-size:9.5px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; }
+  .badge-pct{ font-size:22px; font-weight:700; line-height:1.1; }
+  .act-emerging{ background: var(--red-soft); color: var(--red); } .act-watch{ background: var(--amber-soft); color: var(--amber); } .act-dormant{ background: var(--sky-100); color: var(--slate-soft); }
+
+  .signpost-row{ display:flex; flex-wrap:wrap; gap:6px; }
+  .sp-chip{ display:inline-flex; align-items:center; gap:5px; font-size:10.5px; padding:4px 9px; border-radius:6px; background: var(--sky-50); border:1px solid var(--line); cursor:help; }
+  .sp-dot{ width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+  .sp-active{ background: var(--red); } .sp-watch{ background: var(--amber); } .sp-dormant{ background: #B7C1C7; }
+
+  .linked-risks{ display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; padding-top:9px; border-top:1px solid var(--line-soft); }
+  .risk-chip{ font-family:'IBM Plex Mono', monospace; font-size:10px; padding:3px 8px; border-radius:6px; background: var(--sky-50); border:1px solid var(--line); color: var(--slate-soft); }
+  .risk-chip.chip-red{ border-color: rgba(158,46,35,0.35); color: var(--red); }
+  .risk-chip.chip-amber{ border-color: rgba(181,121,15,0.35); color: var(--amber); }
+  .risk-chip.chip-green{ border-color: rgba(46,125,79,0.35); color: var(--green); }
+
+  /* ===== External Risk Trends ===== */
+  .ert-topbar{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:14px; flex-wrap:wrap; }
+  .filter-pills{ display:flex; gap:8px; }
+  .filter-pill{ font-family:'Inter',sans-serif; font-size:12px; font-weight:600; padding:7px 15px; border-radius:20px; border:1px solid var(--line); background:var(--white); color: var(--slate-soft); cursor:pointer; }
+  .filter-pill:hover{ border-color: var(--blue-light); }
+  .filter-pill.active{ background: var(--green-soft); border-color: var(--green); color: var(--green); }
+  .filter-pill.active.sev-high{ background: var(--red-soft); border-color: var(--red); color: var(--red); }
+  .related-risks-panel{ background: var(--white); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:16px; }
+  .related-risks-title{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.08em; text-transform:uppercase; color: var(--slate-soft); margin-bottom:10px; }
+  .related-risks-row{ display:flex; flex-wrap:wrap; gap:7px; }
+  .risk-filter-chip{ font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; padding:5px 12px; border-radius:20px; border:1px solid var(--line); background:var(--white); color: var(--slate-soft); cursor:pointer; }
+  .risk-filter-chip:hover{ border-color: var(--blue-light); }
+  .risk-filter-chip.active{ background: var(--sky-100); border-color: var(--blue); color: var(--blue); }
+  .exec-layout{ display:grid; grid-template-columns: 420px 1fr; gap:28px; align-items:start; margin-top:26px; }
+  .exec-left .filter-pills{ margin-bottom:12px; }
+  .exec-left .related-risks-panel{ margin-bottom:14px; }
+  .ert-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; }
+  .ert-grid.compact{ grid-template-columns: 1fr; gap:10px; }
+  .ert-grid.compact .ert-card{ padding:13px 15px; gap:8px; }
+  .ert-grid.compact .ert-headline{ font-size:13.5px; }
+  .ert-card{ background: var(--white); border:1px solid var(--line); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:10px; }
+  .ert-card-top{ display:flex; align-items:center; justify-content:space-between; }
+  .sev-badge{ font-family:'Inter',sans-serif; font-size:11px; font-weight:700; padding:4px 11px; border-radius:20px; }
+  .sev-high{ background: var(--red-soft); color: var(--red); }
+  .sev-medium{ background: var(--amber-soft); color: var(--amber); }
+  .sev-watch{ background: var(--slate-tint); color: var(--slate-soft); }
+  .sev-dot{ width:8px; height:8px; border-radius:50%; }
+  .sev-dot.sev-high{ background: var(--red); }
+  .sev-dot.sev-medium{ background: var(--amber); }
+  .sev-dot.sev-watch{ background: var(--slate-soft); }
+  .ert-headline{ font-family:'Source Serif 4', serif; font-weight:600; font-size:14.5px; color: var(--navy); line-height:1.35; }
+  .ert-tags{ display:flex; flex-wrap:wrap; gap:6px; }
+  .ert-tag{ font-size:10px; font-weight:600; padding:3px 9px; border-radius:20px; }
+  .ert-tag.t-operational{ background: var(--green-soft); color: var(--green); }
+  .ert-tag.t-strategic{ background: rgba(4,107,153,0.10); color: var(--blue); }
+  .ert-tag.t-financial{ background: var(--red-soft); color: var(--red); }
+  .ert-tag.t-cyber{ background: var(--red-soft); color: var(--red); }
+  .ert-tag.t-climate{ background: var(--green-soft); color: var(--green); }
+  .ert-tag.t-regulatory{ background: var(--amber-soft); color: var(--amber); }
+  .ert-source{ font-size:11px; color: var(--slate-soft); }
+  .ert-linked{ display:flex; flex-wrap:wrap; gap:5px; padding-top:9px; border-top:1px solid var(--line-soft); }
+
+  .footer-note{ margin-top: 26px; padding-top:14px; border-top:1px solid var(--line); font-size: 10.5px; color: var(--slate-soft); line-height:1.55; }
+
+  @media (max-width: 1100px){
+    .tier-grid, .radar-signals-layout, .scenario-grid, .synth-grid, .ert-grid, .chart-panel, .exec-layout, .goal-strip, .bucket-strip{ grid-template-columns: 1fr; }
+    .tile-strip.n3, .tile-strip.n4, .tile-strip.n5{ grid-template-columns: 1fr; }
+    .risk-table{ font-size:11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="agency-band">
+  <div class="wrap">
+    <svg class="drop" viewBox="0 0 24 24" fill="#CFE6EF"><path d="M12 2C12 2 4 12 4 17a8 8 0 0 0 16 0c0-5-8-15-8-15z"/></svg>
+    <span>STATE OF CALIFORNIA · NATURAL RESOURCES AGENCY</span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <div class="header-left">
+      <div class="dwr-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2C12 2 4 12 4 17a8 8 0 0 0 16 0c0-5-8-15-8-15z" fill="#FFFFFF"/></svg></div>
+      <div>
+        <span class="agency-name">California Department of Water Resources</span>
+        <h1>Risk & Initiative Console</h1>
+      </div>
+    </div>
+    <div class="header-meta">
+      <span><span class="live-dot"></span>Refreshed Jul 30, 2026</span>
+      <span class="mono">State Water Project</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap content">
+
+  <div class="tabbar">
+    <button class="tab-btn active" data-tab="summary">Executive Summary</button>
+    <button class="tab-btn" data-tab="exec">Risk and Trends Overview</button>
+    <button class="tab-btn" data-tab="detail">Risk Detail</button>
+    <button class="tab-btn" data-tab="response">Risk Response</button>
+    <button class="tab-btn" data-tab="scenario-intel">Scenario Intelligence</button>
+  </div>
+
+  <!-- ============ TAB: EXECUTIVE SUMMARY ============ -->
+  <section class="tab-panel active" id="tab-summary">
+
+    <div class="story-label">1 · SWP's Strategic Goals</div>
+    <div class="story-sub">Elevate to '28 — the 5 goals guiding SWP's strategy through 2028</div>
+    <div class="goal-strip" id="goal-strip"></div>
+
+    <div class="story-connector">▼ which face these top risks</div>
+
+    <div class="story-label">2 · Top Risks to Achieving Our Goals</div>
+    <div class="story-sub">SWP's top risks, grouped by focus category, with high-level trend</div>
+    <div class="bucket-strip" id="bucket-strip"></div>
+
+    <div class="story-connector">▼ being addressed by these initiatives</div>
+
+    <div class="story-label">3 · Initiatives Underway to Address These Risks</div>
+    <div class="story-sub">Strategic initiative status, from the latest EMT briefing</div>
+    <div class="tile-strip n4" id="initiative-summary-tiles"></div>
+    <div class="summary-insight" id="initiative-insight"></div>
+
+    <div class="story-connector">▼ while watching for these emerging signals</div>
+
+    <div class="story-label">4 · External Trends to Watch</div>
+    <div class="story-sub">The highest-severity signals worth keeping an eye on</div>
+    <div class="mini-trend-list" id="mini-trend-list"></div>
+    <div class="summary-insight">See <strong>Risk and Trends Overview</strong> for the full, filterable list.</div>
+
+  </section>
+
+  <!-- ============ TAB: RISK AND TRENDS OVERVIEW (was Executive Overview) ============ -->
+  <section class="tab-panel" id="tab-exec">
+    <div class="tile-strip n4" id="exec-tiles"></div>
+
+    <div class="exec-layout">
+      <div class="exec-left">
+        <div class="section-label">Top External Trends <span class="section-note">— updated Jul 30, 2026</span></div>
+        <div class="filter-pills" id="severity-filters">
+          <button class="filter-pill active" data-filter="all">All</button>
+          <button class="filter-pill" data-filter="High">High severity</button>
+          <button class="filter-pill" data-filter="near">Near-term</button>
+        </div>
+        <div class="related-risks-panel">
+          <div class="related-risks-title">Related SWP Risks</div>
+          <div class="related-risks-row" id="risk-filter-row"></div>
+        </div>
+        <div class="ert-grid compact" id="ert-grid"></div>
+      </div>
+
+      <div class="exec-right">
+        <div class="section-label">SWP-Wide Top Risks — Snapshot</div>
+        <div class="panel-box">
+          <table class="risk-table">
+            <thead><tr><th>#</th><th>Risk</th><th>Category</th><th>Owner</th><th>Response Status</th><th>Metric Status</th><th>Trend</th></tr></thead>
+            <tbody id="exec-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB: RISK DETAIL ============ -->
+  <section class="tab-panel" id="tab-detail">
+    <div class="tile-strip n4" id="detail-tiles"></div>
+    <div class="section-label">All Risks <span class="section-note">— click a row to expand full detail</span></div>
+    <div class="panel-box" id="risk-accordion"></div>
+  </section>
+
+  <!-- ============ TAB: RISK RESPONSE ============ -->
+  <section class="tab-panel" id="tab-response">
+    <div class="tile-strip n5" id="response-tiles"></div>
+
+    <div class="section-label">Risk Response Activity Progress <span class="section-note">— quarterly trend, all tracked activities (renamed from "Critical Activity Progress")</span></div>
+    <div class="chart-panel">
+      <div>
+        <div class="fast-facts-title">Fast Facts</div>
+        <div class="fast-fact">Complete activities nearly doubled, 59 → 100, Q1 to Q4</div>
+        <div class="fast-fact">Off Track activities down from a Q2 peak of 32 to 22</div>
+        <div class="fast-fact">At Risk activities cut nearly in half, 19 → 11</div>
+        <div class="fast-fact">Completion rate rose from 28.8% to 45.0% over the year</div>
+        <div class="fast-fact">222 activities tracked in the Implementation Work Plan (up from 205 in Sept-25)</div>
+      </div>
+      <div>
+        <svg id="activity-chart" width="100%" height="300" viewBox="0 0 680 320"></svg>
+        <div class="chart-legend">
+          <span class="legend-dot-row"><span class="legend-sq" style="background:var(--green)"></span>Complete</span>
+          <span class="legend-dot-row"><span class="legend-sq" style="background:var(--blue-light)"></span>On Track</span>
+          <span class="legend-dot-row"><span class="legend-sq" style="background:var(--amber)"></span>At Risk</span>
+          <span class="legend-dot-row"><span class="legend-sq" style="background:var(--red)"></span>Off Track</span>
+          <span class="legend-dot-row"><span class="legend-sq" style="background:var(--navy); border-radius:50%;"></span>% Complete (line)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Risk Response Activities <span class="section-note">— click a row to expand, similar to the EMT briefing initiative one-pagers</span></div>
+    <div class="panel-box" id="activity-accordion"></div>
+  </section>
+
+  <!-- ============ TAB: SCENARIO INTELLIGENCE ============ -->
+  <section class="tab-panel" id="tab-scenario-intel">
+    <div class="scen-topbar">
+      <div>
+        <div class="scen-title">Scenario Early Warning</div>
+        <div class="scen-sub">SWP · 4 scenarios from the Dec 2025 LTP workshop</div>
+      </div>
+      <div class="scen-meta">
+        <span class="live-pill"><span class="live-dot" style="background:var(--green); box-shadow:none;"></span>Live</span>
+        <span class="updated-text">Updated Jul 30, 2026</span>
+      </div>
+    </div>
+
+    <div class="section-label">Scenario Dashboard <span class="section-note">— drill down into each scenario's signposts and linked risks</span></div>
+    <div class="scenario-grid" id="scenario-grid"></div>
+
+    <div class="section-label">Radar Visualization & Active Signpost Detail</div>
+    <div class="radar-signals-layout">
+      <div class="radar-panel">
+        <div class="panel-head-bar">1. Scenario Radar</div>
+        <div class="radar-body">
+          <div class="radar-svg-wrap">
+            <svg id="radar-svg" width="300" height="300" viewBox="0 0 360 360"></svg>
+            <div class="radar-tooltip" id="radar-tooltip"></div>
+          </div>
+          <div class="radar-legend">
+            <div><div class="radar-legend-title">Bubbles</div>Signposts, numbered</div>
+            <div>
+              <div class="radar-legend-title">Size & Position</div>
+              <div class="legend-dot-row"><span class="legend-dot" style="background:var(--red)"></span>Active — bigger, closer to scenario</div>
+              <div class="legend-dot-row"><span class="legend-dot" style="background:var(--amber)"></span>Watch — mid</div>
+              <div class="legend-dot-row"><span class="legend-dot" style="background:#B7C1C7"></span>Dormant — smaller, near center</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="signals-panel">
+        <div class="panel-head-bar">2. Active Signposts</div>
+        <table class="signals-table">
+          <thead><tr><th>#</th><th>Signpost</th><th>Reading</th><th>Supports</th></tr></thead>
+          <tbody id="active-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-label">Signpost Monitoring <span class="section-note">— all 18 tracked signposts, grouped by category</span></div>
+    <div class="signpost-panel">
+      <div class="signpost-panel-head">
+        <div class="signpost-panel-title">All Tracked Signposts <span class="count-pill">18 total</span></div>
+        <div class="cat-pill-row" id="cat-pill-row"></div>
+      </div>
+      <div class="signpost-panel-body">
+        <div class="synth-grid" id="synthesis-container"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="footer-note">
+    Executive Summary is new: the 5 strategic goals are from page 8 of "Elevate to '28" (SWP's Risk-Informed Strategic Plan, Jan 2024, water.ca.gov). Risk bucket counts/trends and the initiative tiles are computed live from the same data used in Risk and Trends Overview / Risk Response, so the two stay in sync automatically. Risk categorization (Immediate/Elevated/Continued), strategic domains, and trend detail are from the Spring 2026 Risk Reporting Tear Sheets and the June 2026 EMT Briefing Deck (slide 17 risk categorization matrix). Categorization colors (navy #023047 / teal #219EBC / gold #FFB703) match the official icons on slide 7 of the May 2026 SRM Council Facilitation Materials. We've confirmed 24 SWP-wide top risks across both sources — worth reconciling against the "25" figure from your notes. Full lead/trend/reason detail is confirmed for 17 of 24 risks; the remaining 7 are marked "Pending" and need a tear-sheet pass. Risk Response tiles and the Activity Progress chart use real counts from EMT deck slides 4–5; the four featured Risk Response Activities (Initiatives 1, 6, 10, 12) use real critical-activity detail from slides 7–11 — Consequence Score and Leadership Attention flag are illustrative additions, not in the source deck. Scenario data is from the April 2026 LTP facilitation deck. External Trends cards are illustrative examples modeled on the reference mockup you shared, with full severity/near-term/risk-code filtering intact in Risk and Trends Overview. KRI/KPI numeric values throughout remain placeholders pending the data source repository excel. Palette modeled on DWR's public site — not an official brand asset.
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   RISK DATA — 24 SWP-wide top risks (June 2026 EMT categorization matrix + Spring 2026 tear sheets)
+   ============================================================ */
+const risks = [
+  { id:"R-20", cat:"Major Systems Implementation", domain:"Technological", tier:"immediate", lead:"Jim Wang, Matt Tanaka", realTrend:"Increasing",
+    reason:"FI$CAL and S/4HANA upgrades are currently delayed.",
+    kriName:"S/4HANA Milestones On Schedule", kriDetail:"S/4HANA Migration Milestones On Schedule (%) — threshold 75%",
+    data:[90,85,80,74,70,65], value:65, unit:"%", status:"red",
+    kpiName:"Migration Plan Adherence", kpiValue:45, kpiColor:"var(--amber)", confirmed:true },
+  { id:"R-21", cat:"AI Strategy and Governance", domain:"Technological", tier:"immediate", lead:"John Franco Saraceno", realTrend:"Increasing",
+    reason:"Increasing given the rapid pace of advancements in AI. Per the EMT deck, the AI Initiative is in early scoping and could become At Risk as SWP works to align with broader DWR AI efforts.",
+    kriName:"AI Use Cases w/o Governance", kriDetail:"AI Use Cases in Production Without Governance Review — threshold 3",
+    data:[1,2,2,3,4,5], value:5, unit:"", status:"red",
+    kpiName:"Governance Framework Rollout", kpiValue:25, kpiColor:"var(--red)", confirmed:true },
+  { id:"R-22", cat:"Knowledge Management", domain:"Talent", tier:"immediate", lead:"Marcus Yee", realTrend:"No Change",
+    reason:"Strong in training/process, but gaps remain in tacit knowledge capture, sharing behaviors, and risk ownership.",
+    kriName:"Roles w/o Succession Plan", kriDetail:"Critical Roles Without Documented Succession Plan (%) — threshold 20%",
+    data:[35,33,31,29,27,26], value:26, unit:"%", status:"amber",
+    kpiName:"Communities of Practice", kpiValue:35, kpiColor:"var(--red)", confirmed:true },
+  { id:"R-09", cat:"San Joaquin Valley Subsidence", domain:"Operational", tier:"immediate", lead:"Jim Lopes (DOE)", realTrend:"Increasing",
+    reason:"Cross-referenced with Initiative 1 (CASP): federal/Reclamation coordination along the San Luis Canal Joint Use Facility and endangered-species findings at project sites remain unresolved.",
+    kriName:"CASP Interim Action Projects On Schedule", kriDetail:"Cross-referenced with Initiative 1 critical activities (EMT deck slides 7–8)",
+    data:[80,76,72,70,67,65], value:65, unit:"%", status:"red",
+    kpiName:"Stakeholder Engagement, Remediation Alternatives", kpiValue:50, kpiColor:"var(--amber)", confirmed:true },
+  { id:"R-10", cat:"Delta Reliance", domain:"Operational", tier:"immediate", lead:"Pending", realTrend:"Pending",
+    reason:"Full tear-sheet detail pending; cross-referenced with Delta Conveyance permitting activity under External Disruption.",
+    kriName:"Delta Conveyance Milestones On Schedule", kriDetail:"Illustrative placeholder — pending tear sheet",
+    data:[70,68,66,64,63,61], value:61, unit:"%", status:"amber",
+    kpiName:"Conveyance Permitting Progress", kpiValue:48, kpiColor:"var(--amber)", confirmed:false },
+
+  { id:"R-13", cat:"Reliance on Third Parties", domain:"Extended Enterprise", tier:"elevated", lead:"Kevan Samsam", realTrend:"No Change",
+    reason:"Recent risk deep dive conducted; working to identify and execute next steps.",
+    kriName:"Single-Source Vendor Contracts", kriDetail:"Critical Vendor Contracts, Single-Source (%) — threshold 25%",
+    data:[22,24,23,26,28,30], value:30, unit:"%", status:"red",
+    kpiName:"Vendor Risk Assessments", kpiValue:55, kpiColor:"var(--amber)", confirmed:true },
+  { id:"R-08", cat:"External Disruption", domain:"Operational", tier:"elevated", lead:"Karen Gehrts", realTrend:"Increasing",
+    reason:"Risk is increasing due to uncertainty of the 2026 California gubernatorial election.",
+    kriName:"Regulatory Actions Tracked", kriDetail:"New Regulatory/Legislative Actions Tracked (Quarterly) — threshold 6",
+    data:[3,5,4,6,7,9], value:9, unit:"", status:"amber",
+    kpiName:"Regulatory Monitoring Rollout", kpiValue:80, kpiColor:"var(--green)", confirmed:true },
+  { id:"R-11", cat:"Public Perception & Trust", domain:"Reputational", tier:"elevated", lead:"David Gordon", realTrend:"No Change",
+    reason:"DWR/SWP improving outward capabilities, but external factors and decisions cause public confusion.",
+    kriName:"Negative Media Mentions", kriDetail:"Negative Media Sentiment Mentions (Monthly) — threshold 20",
+    data:[14,18,16,21,25,29], value:29, unit:"", status:"red",
+    kpiName:"Stakeholder Engagement Milestones", kpiValue:72, kpiColor:"var(--amber)", confirmed:true },
+  { id:"R-03", cat:"Long-Term Planning", domain:"Operational", tier:"elevated", lead:"Andrew Schwarz", realTrend:"Increasing",
+    reason:"CVP reliability concerns and the Sites Reservoir water rights decision complicate long-term projects.",
+    kriName:"Long-Range Plans Funded", kriDetail:"Long-Range Plans w/ Current Funding Approved (%) — threshold 60%",
+    data:[70,68,65,64,61,59], value:59, unit:"%", status:"red",
+    kpiName:"Plan Refresh Progress", kpiValue:30, kpiColor:"var(--red)", confirmed:true },
+  { id:"R-18", cat:"Data Governance", domain:"Technological", tier:"elevated", lead:"Parm Randhawa", realTrend:"No Change",
+    reason:"Existing mitigations in place to address this risk.",
+    kriName:"Systems Data-Classified", kriDetail:"Systems w/ Completed Data Classification (%) — threshold 75%",
+    data:[48,52,55,60,64,68], value:68, unit:"%", status:"amber",
+    kpiName:"Classification Program", kpiValue:63, kpiColor:"var(--amber)", confirmed:true },
+  { id:"R-24", cat:"Internal Governance & Operating Model", domain:"Talent", tier:"elevated", lead:"Olivia Virgadamo", realTrend:"No Change",
+    reason:"Mitigations in place to address this risk.",
+    kriName:"Decision Rights Documented", kriDetail:"Decision Rights Documented Across Divisions (%) — threshold 60%",
+    data:[40,45,50,55,60,64], value:64, unit:"%", status:"green",
+    kpiName:"RACI Documentation", kpiValue:71, kpiColor:"var(--amber)", confirmed:true },
+  { id:"R-19", cat:"Innovation", domain:"Technological", tier:"elevated", lead:"Karen Gehrts", realTrend:"Increasing",
+    reason:"Increased opportunities to pursue innovation given tech advancements and push for efficiency.",
+    kriName:"Improvement Initiatives On-Time", kriDetail:"Process Improvement Initiatives Delivered On Time (%) — threshold 70%",
+    data:[58,55,60,63,66,70], value:70, unit:"%", status:"green",
+    kpiName:"Roadmap Execution", kpiValue:68, kpiColor:"var(--amber)", confirmed:true },
+  { id:"R-16", cat:"Physical Security", domain:"Safety", tier:"elevated", lead:"Dave Panec (O&M)", realTrend:"Increasing",
+    reason:"Cross-referenced with Initiative 12: physical security integration into the Emergency Preparedness Program requires new contract solicitation; planned 2025 work deferred to 2026–2027.",
+    kriName:"EPP Physical Security Integration", kriDetail:"Integrate Physical Security into SWP EPP — At Risk, 10% done (EMT deck slide 11)",
+    data:[40,35,28,22,15,10], value:10, unit:"%", status:"red",
+    kpiName:"Program Governance & Partner Engagement", kpiValue:50, kpiColor:"var(--amber)", confirmed:true },
+  { id:"R-17", cat:"Cybersecurity", domain:"Technological", tier:"elevated", lead:"Jag Nagendra (O&M), Matt Valdez (DTS)", realTrend:"Increasing",
+    reason:"Initiative 25 (Coordinate Cybersecurity Efforts) remains Off Track: governance model finalized, but implementation is 0% complete pending the Security Officer hire.",
+    kriName:"Governance Model Implementation", kriDetail:"Initiative 25 implementation — 0% done, Off Track (EMT deck slide 12)",
+    data:[15,10,5,2,0,0], value:0, unit:"%", status:"red",
+    kpiName:"Security Officer Hire & Rollout", kpiValue:0, kpiColor:"var(--red)", confirmed:true },
+  { id:"R-23", cat:"Workforce Attraction & Retention", domain:"Talent", tier:"elevated", lead:"Pending", realTrend:"No Change",
+    reason:"Workforce Strategy (Initiative 28) added 3 new critical activities this quarter per the EMT deck.",
+    kriName:"Key Role Vacancy Rate", kriDetail:"Illustrative placeholder — pending tear sheet",
+    data:[9,9.5,10,10.5,11,11.5], value:11.5, unit:"%", status:"amber",
+    kpiName:"Workforce Strategy Rollout", kpiValue:42, kpiColor:"var(--amber)", confirmed:false },
+  { id:"R-12", cat:"Compliance Requirements", domain:"Regulatory", tier:"elevated", lead:"Aaron S. Miller (SWPCCO)", realTrend:"No Change",
+    reason:"Initiative 29 (Integrate Compliance Efforts) is On Hold pending scope/timing; NERC/FERC/WECC advancements and the pending FERC relicense warrant revisiting.",
+    kriName:"Compliance Integration Scoping", kriDetail:"Initiative 29 — On Hold (EMT deck slide 12)",
+    data:[20,20,15,10,5,5], value:5, unit:"%", status:"amber",
+    kpiName:"Current-State Assessment Progress", kpiValue:10, kpiColor:"var(--red)", confirmed:true },
+  { id:"R-06", cat:"Climate Change Adaptation", domain:"Operational", tier:"elevated", lead:"Pending", realTrend:"Pending",
+    reason:"Full tear-sheet detail pending extraction.",
+    kriName:"Facilities w/ Climate Risk Assessment", kriDetail:"Illustrative placeholder — pending tear sheet",
+    data:[40,45,48,50,53,55], value:55, unit:"%", status:"amber",
+    kpiName:"Adaptation Roadmap Progress", kpiValue:40, kpiColor:"var(--amber)", confirmed:false },
+
+  { id:"R-05", cat:"Emergency Management", domain:"Operational", tier:"continued", lead:"David Panec", realTrend:"Increasing",
+    reason:"Global climate has increased cyber threats; physical threat increase unvalidated. ICT staff untrained/inexperienced.",
+    kriName:"Facilities w/ Current EAP", kriDetail:"Facilities w/ Current Emergency Action Plan (%) — threshold 90%",
+    data:[82,84,86,88,90,92], value:92, unit:"%", status:"green",
+    kpiName:"EAP Update Cycle", kpiValue:88, kpiColor:"var(--green)", confirmed:true },
+  { id:"R-01", cat:"Energy Market", domain:"Financial", tier:"continued", lead:"Pending", realTrend:"Decreasing",
+    reason:"Categorization shifted from Elevated (2025) to Continued (2026) per the May SRMC Risk Categorization Workshop.",
+    kriName:"Wholesale Power Cost Volatility", kriDetail:"Illustrative placeholder — pending tear sheet",
+    data:[18,16,14,13,12,11], value:11, unit:"%", status:"green",
+    kpiName:"Hedging Strategy Coverage", kpiValue:74, kpiColor:"var(--amber)", confirmed:false },
+  { id:"R-02", cat:"Financing and Rising Costs", domain:"Financial", tier:"continued", lead:"Pending", realTrend:"Pending",
+    reason:"Full tear-sheet detail pending extraction.",
+    kriName:"Capital Cost Escalation vs. Budget", kriDetail:"Illustrative placeholder — pending tear sheet",
+    data:[4,5,5.5,6,6.2,6.5], value:6.5, unit:"%", status:"amber",
+    kpiName:"Cost Containment Plan Progress", kpiValue:52, kpiColor:"var(--amber)", confirmed:false },
+  { id:"R-04", cat:"Project Prioritization & Delivery", domain:"Operational", tier:"continued", lead:"Pending", realTrend:"Pending",
+    reason:"Full tear-sheet detail pending extraction.",
+    kriName:"Prioritized Projects On Schedule", kriDetail:"Illustrative placeholder — pending tear sheet",
+    data:[70,69,68,67,66,65], value:65, unit:"%", status:"amber",
+    kpiName:"Portfolio Prioritization Framework", kpiValue:58, kpiColor:"var(--amber)", confirmed:false },
+  { id:"R-07", cat:"Asset Performance", domain:"Operational", tier:"continued", lead:"David Rennie (O&M)", realTrend:"No Change",
+    reason:"Cross-referenced with Initiative 10: three AMP activities are At Risk due to a staffing transition (Plant Asset Lead retiring, Electrical Plant Asset Specialist departed).",
+    kriName:"AMP Action Items Implemented", kriDetail:"Implement AMP action items — At Risk, 44% done (EMT deck slide 10)",
+    data:[52,50,48,46,45,44], value:44, unit:"%", status:"amber",
+    kpiName:"Large Valves & Canals AMP Development", kpiValue:75, kpiColor:"var(--green)", confirmed:true },
+  { id:"R-14", cat:"Employee Safety", domain:"Safety", tier:"continued", lead:"Pending", realTrend:"Pending",
+    reason:"Full tear-sheet detail pending extraction.",
+    kriName:"Recordable Incident Rate", kriDetail:"Illustrative placeholder — pending tear sheet",
+    data:[3,2.8,2.6,2.5,2.4,2.3], value:2.3, unit:"", status:"green",
+    kpiName:"Safety Program Maturity", kpiValue:80, kpiColor:"var(--green)", confirmed:false },
+  { id:"R-15", cat:"Public Safety", domain:"Safety", tier:"continued", lead:"Pending", realTrend:"Pending",
+    reason:"Full tear-sheet detail pending extraction.",
+    kriName:"Public Safety Incidents (12 mo.)", kriDetail:"Illustrative placeholder — pending tear sheet",
+    data:[6,5,5,4,4,3], value:3, unit:"", status:"green",
+    kpiName:"Public Safety Program Coverage", kpiValue:77, kpiColor:"var(--green)", confirmed:false },
+];
+
+/* ============================================================
+   RISK RESPONSE ACTIVITIES — real critical activities from EMT deck slides 7–11.
+   Defined here (early) so both Risk Detail and Risk Response can reference it.
+   ============================================================ */
+const activities = [
+  { name:"Initiative 1: Accelerate the California Aqueduct Subsidence Program (CASP)", owner:"Jim Lopes (DOE)", status:"risk",
+    linkedRisks:["San Joaquin Valley Subsidence","Reliance on Third Parties"],
+    subActivities:[
+      { name:"Stakeholder engagement for long-term remediation alternatives", pct:50, status:"risk",
+        progress:"Presentation to SWC Financial Management Conference and State/Federal Water Contractors.",
+        notes:"Uncertain federal conditions have called prior San Luis Canal (JUF) agreements into question; Westlands Water District disputes CASP's subsidence forecasts as \"too dire.\"",
+        assocRisk:"San Joaquin Valley Subsidence", consequence:4, leadershipAttention:true },
+      { name:"Subsidence & groundwater monitoring equipment installation", pct:35, status:"off",
+        progress:"Revised overall monitoring scope and budget to align with critical subsidence areas.",
+        notes:"SWP Executive requests project deferment in San Luis Field Division; Reclamation staffing/funding issues; DWR depends on Reclamation for permitting.",
+        assocRisk:"Reliance on Third Parties", consequence:5, leadershipAttention:true },
+    ]},
+  { name:"Initiative 6: Complete the SWP Public Benefits Project", owner:"David Gordon (Exec)", status:"off",
+    linkedRisks:["Public Perception & Trust"],
+    subActivities:[
+      { name:"Socialize Economic Benefits Study with DWR and CA Legislature", pct:70, status:"off",
+        progress:"Awaiting executive review completion.",
+        notes:"Review taking longer than anticipated; leadership aware and has approved the delay.",
+        assocRisk:"Public Perception & Trust", consequence:2, leadershipAttention:false },
+      { name:"\"More Than Just Water\" study — completion and socialization", pct:90, status:"risk",
+        progress:"Study near completion; socialization delayed pending exec review.",
+        notes:"Key team member needed before finalizing; PAO has advertised for a new position to assist.",
+        assocRisk:"Public Perception & Trust", consequence:2, leadershipAttention:true },
+    ]},
+  { name:"Initiative 10: Develop and Implement Asset Management Plans", owner:"David Rennie (O&M)", status:"risk",
+    linkedRisks:["Asset Performance"],
+    subActivities:[
+      { name:"Implement action items identified in the Asset Management Plans", pct:44, status:"risk",
+        progress:"Developing transition plan following departure of Activity Lead.",
+        notes:"Plant Asset Lead retiring in June; Electrical Plant Asset Specialist left in May; Civil Asset Lead taking over with more reliance on consultants.",
+        assocRisk:"Asset Performance", consequence:3, leadershipAttention:true },
+      { name:"Large Valves AMP development", pct:82, status:"risk",
+        progress:"Pre-Draft Valve AMP complete for internal AM Branch review.",
+        notes:"Impacted by the same staffing transition noted above.",
+        assocRisk:"Asset Performance", consequence:2, leadershipAttention:false },
+    ]},
+  { name:"Initiative 12: Expand and Standardize Emergency Preparedness", owner:"Dave Panec (O&M)", status:"risk",
+    linkedRisks:["Emergency Management","Physical Security"],
+    subActivities:[
+      { name:"Program governance and SWP/DWR partner engagement processes", pct:50, status:"off",
+        progress:"Physical security transition plans implemented; reviewing Physical Security scope.",
+        notes:"Physical security integration into EPP requires new contract solicitation; planned 2025 work deferred to 2026–2027.",
+        assocRisk:"Physical Security", consequence:4, leadershipAttention:true },
+      { name:"Integrate Physical Security into SWP Emergency Preparedness Program", pct:10, status:"risk",
+        progress:"EP-01 updated; SM01 and SM02 executed.",
+        notes:"Cascading delays; insufficient engagement with partnering divisions risks an ineffective, misrepresentative plan.",
+        assocRisk:"Physical Security", consequence:4, leadershipAttention:true },
+    ]},
+];
+/* Flat lookup: risk category name -> list of {activityName, initiative, owner, pct, status, notes} */
+const activitiesByRisk = {};
+activities.forEach(a=>{
+  a.subActivities.forEach(sa=>{
+    if(!activitiesByRisk[sa.assocRisk]) activitiesByRisk[sa.assocRisk] = [];
+    activitiesByRisk[sa.assocRisk].push({ activityName: sa.name, initiative: a.name, owner: a.owner, pct: sa.pct, status: sa.status, notes: sa.notes });
+  });
+});
+
+function kpiStatus(v){ return v>=75 ? "on" : v>=40 ? "risk" : "off"; }
+function kriStatus(s){ return s==="red" ? "off" : s==="amber" ? "risk" : "on"; }
+function worst(a,b){ const order={off:0,risk:1,on:2}; return order[a] <= order[b] ? a : b; }
+function trendCls(t){ return t==="Increasing" ? "trend-inc" : t==="Decreasing" ? "trend-dec" : t==="Pending" ? "trend-pend" : "trend-nochange"; }
+function trendArrow(t){ return t==="Increasing" ? "▲" : t==="Decreasing" ? "▼" : t==="Pending" ? "…" : "➔"; }
+const statusColor = { red:"var(--red)", amber:"var(--amber)", green:"var(--green)" };
+const statusHex = { red:"#9E2E23", amber:"#B5790F", green:"#2E7D4F" };
+const tierLabel = { immediate:"Immediate", elevated:"Elevated", continued:"Continued" };
+
+risks.forEach(r=>{
+  r.kriS = kriStatus(r.status);
+  r.kpiS = kpiStatus(r.kpiValue);
+  r.combined = worst(r.kriS, r.kpiS);
+});
+
+function sparkline(data, w=50, h=20, color){
+  const min = Math.min(...data), max = Math.max(...data);
+  const range = (max-min) || 1;
+  const pts = data.map((v,i)=>{ const x=(i/(data.length-1))*w; const y=h-((v-min)/range)*h; return [x,y]; });
+  const path = pts.map(p=>p.join(',')).join(' ');
+  const last = pts[pts.length-1];
+  return `<svg class="spark-svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    <polyline points="${path}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${last[0]}" cy="${last[1]}" r="2.2" fill="${color}"/>
+  </svg>`;
+}
+const statusPillLabel = { off:"Off Track", risk:"At Risk", on:"On Track" };
+
+/* ============================================================
+   TILE STRIP RENDERER (reused across Exec Overview / Risk Detail)
+   ============================================================ */
+function renderRiskTiles(containerId){
+  const counts = { off:0, risk:0, on:0 };
+  risks.forEach(r=> counts[r.combined]++ );
+  const immediateCount = risks.filter(r=>r.tier==="immediate").length;
+  const atRiskResponses = risks.filter(r=>r.kpiS==="risk").length;
+  const offTrackMetrics = risks.filter(r=>r.kriS==="off").length;
+  document.getElementById(containerId).innerHTML = `
+    <div class="stat-tile"><div class="stat-num neutral">${risks.length}</div><div class="stat-label">Total SWP-wide<br>top risks</div></div>
+    <div class="stat-tile"><div class="stat-num" style="color:var(--cat-immediate)">${immediateCount}</div><div class="stat-label">Immediate<br>focus risks</div></div>
+    <div class="stat-tile"><div class="stat-num risk">${atRiskResponses}</div><div class="stat-label">Risks with At Risk<br>responses</div></div>
+    <div class="stat-tile"><div class="stat-num off">${offTrackMetrics}</div><div class="stat-label">Risks with<br>Off Track metrics</div></div>
+  `;
+}
+renderRiskTiles('exec-tiles');
+renderRiskTiles('detail-tiles');
+
+/* ============================================================
+   EXECUTIVE OVERVIEW — snapshot table
+   ============================================================ */
+const execTbody = document.getElementById('exec-tbody');
+risks.forEach((r,i)=>{
+  const tr = document.createElement('tr');
+  const leadCls = r.confirmed ? "rt-lead" : "rt-lead pend";
+  tr.innerHTML = `
+    <td class="rt-num">${i+1}</td>
+    <td><div class="rt-name" title="${r.reason}">${r.cat}</div><div class="rt-domain">${r.domain}</div></td>
+    <td><span class="cat-badge cat-${r.tier}">${tierLabel[r.tier]}</span></td>
+    <td class="${leadCls}">${r.lead}</td>
+    <td><span class="status-pill status-${r.kpiS}">${statusPillLabel[r.kpiS]}</span></td>
+    <td><span class="status-pill status-${r.kriS}">${statusPillLabel[r.kriS]}</span></td>
+    <td class="rt-trend ${trendCls(r.realTrend)}" title="${r.reason}">${trendArrow(r.realTrend)} ${r.realTrend}</td>
+  `;
+  execTbody.appendChild(tr);
+});
+
+/* ============================================================
+   RISK DETAIL — accordion (full tear-sheet-style detail)
+   ============================================================ */
+const riskAccordion = document.getElementById('risk-accordion');
+function buildActivityRows(r){
+  const real = activitiesByRisk[r.cat];
+  if(real && real.length){
+    return real.map(a=>`
+      <tr>
+        <td class="sat-name">${a.activityName}<div style="font-size:9.5px; color:var(--slate-soft); margin-top:2px;">${a.initiative}</div></td>
+        <td class="rt-lead">${a.owner}</td>
+        <td class="mono" style="font-weight:700;">${a.pct}%</td>
+        <td><span class="status-pill status-${a.status}">${statusPillLabel[a.status]}</span></td>
+        <td class="sat-notes">${a.notes}</td>
+      </tr>`).join('');
+  }
+  return `
+    <tr>
+      <td class="sat-name">${r.kpiName}<div style="font-size:9.5px; color:var(--slate-soft); margin-top:2px;">Illustrative — no linked EMT initiative activity identified yet</div></td>
+      <td class="rt-lead${r.confirmed?'':' pend'}">${r.lead}</td>
+      <td class="mono" style="font-weight:700;">${r.kpiValue}%</td>
+      <td><span class="status-pill status-${r.kpiS}">${statusPillLabel[r.kpiS]}</span></td>
+      <td class="sat-notes">${r.reason}</td>
+    </tr>`;
+}
+risks.forEach((r,i)=>{
+  const row = document.createElement('div');
+  row.className = 'accordion-row';
+  const pendingTag = r.confirmed ? "" : `<span class="ad-pending-tag">Pending Detail</span>`;
+  row.innerHTML = `
+    <div class="accordion-head" data-idx="${i}">
+      <span class="accordion-caret">▶</span>
+      <span class="accordion-name">${r.cat}${pendingTag}</span>
+      <span class="accordion-domain">${r.domain}</span>
+      <span class="cat-badge cat-${r.tier}">${tierLabel[r.tier]}</span>
+      <span class="status-pill status-${r.kriS}">${statusPillLabel[r.kriS]}</span>
+      <span class="rt-trend ${trendCls(r.realTrend)}">${trendArrow(r.realTrend)} ${r.realTrend}</span>
+    </div>
+    <div class="accordion-detail">
+      <div class="ad-reason">"${r.reason}" — Risk Lead: <strong>${r.lead}</strong></div>
+      <div class="ad-grid">
+        <div>
+          <div class="ad-block-label">KRI · Risk Signal</div>
+          <div class="ad-kri-name">${r.kriDetail}</div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            ${sparkline(r.data, 90, 30, statusHex[r.status])}
+            <span class="mono" style="font-size:17px; font-weight:700; color:${statusColor[r.status]}">${r.value}${r.unit}</span>
+          </div>
+        </div>
+        <div>
+          <div class="ad-block-label">KPI · Initiative Progress</div>
+          <div class="ad-kpi-name">${r.kpiName}</div>
+          <div class="ad-kpi-track"><div class="ad-kpi-fill" style="width:${r.kpiValue}%; background:${r.kpiColor}"></div></div>
+          <span class="mono" style="font-size:13px; font-weight:700; color:${r.kpiColor}">${r.kpiValue}%</span>
+        </div>
+      </div>
+      <div class="ad-block-label" style="margin-top:14px;">Risk Response Activities</div>
+      <table class="sub-activity-table" style="max-width:820px;">
+        <thead><tr><th>Activity</th><th>Owner</th><th>% Done</th><th>Status</th><th>Notes</th></tr></thead>
+        <tbody>${buildActivityRows(r)}</tbody>
+      </table>
+    </div>
+  `;
+  riskAccordion.appendChild(row);
+});
+document.querySelectorAll('#risk-accordion .accordion-head').forEach(h=>{
+  h.addEventListener('click', ()=> h.closest('.accordion-row').classList.toggle('open'));
+});
+
+/* ============================================================
+   RISK RESPONSE — tiles (from EMT deck slide 4, initiative level)
+   ============================================================ */
+document.getElementById('response-tiles').innerHTML = `
+  <div class="stat-tile"><div class="stat-num on">2</div><div class="stat-label">"Complete"<br>Initiatives</div></div>
+  <div class="stat-tile"><div class="stat-num neutral" style="color:var(--blue-light)">19</div><div class="stat-label">"On Track"<br>Initiatives</div></div>
+  <div class="stat-tile"><div class="stat-num risk">3</div><div class="stat-label">"At Risk"<br>Initiatives</div></div>
+  <div class="stat-tile"><div class="stat-num off">2</div><div class="stat-label">"Off Track"<br>Initiatives</div></div>
+  <div class="stat-tile pending"><div class="stat-num pend">—</div><div class="stat-label">Other Risk Response<br>Activities <span class="ad-pending-tag" style="margin-left:0;">Pending Excel</span></div></div>
+`;
+
+/* ============================================================
+   RISK RESPONSE — Activity Progress chart (real EMT deck slide 5 data)
+   ============================================================ */
+const activityQuarters = [
+  { label:"Sept-25 (Q1)", complete:59, onTrack:105, atRisk:19, offTrack:22, pctComplete:28.8 },
+  { label:"Dec-25 (Q2)", complete:69, onTrack:98, atRisk:13, offTrack:32, pctComplete:32.5 },
+  { label:"Mar-26 (Q3)", complete:76, onTrack:91, atRisk:14, offTrack:31, pctComplete:35.8 },
+  { label:"Jun-26 (Q4)", complete:100, onTrack:89, atRisk:11, offTrack:22, pctComplete:45.0 },
+];
+function buildActivityChart(){
+  const svg = document.getElementById('activity-chart');
+  const W=680, H=320, padL=38, padR=42, padT=34, padB=40;
+  const plotW = W-padL-padR, plotH = H-padT-padB;
+  const maxCount = 250;
+  const n = activityQuarters.length;
+  const groupW = plotW/n;
+  const barW = 68;
+  const gap = 2.5; // small gap between stacked segments, "candy stack" style
+  let out = "";
+
+  // left axis (count) gridlines + right axis (% complete) tick labels, same y-positions
+  [0,0.2,0.4,0.6,0.8,1].forEach(f=>{
+    const y = padT + plotH*(1-f);
+    out += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#E6F1F5" stroke-width="1"/>`;
+    out += `<text x="${padL-8}" y="${y+3}" text-anchor="end" font-family="IBM Plex Mono" font-size="9" fill="#5B616A">${Math.round(maxCount*f)}</text>`;
+    out += `<text x="${W-padR+8}" y="${y+3}" text-anchor="start" font-family="IBM Plex Mono" font-size="9" fill="#046B99">${Math.round(f*100)}%</text>`;
+  });
+  out += `<text x="${padL-8}" y="${padT-16}" text-anchor="end" font-family="IBM Plex Mono" font-size="8" fill="#5B616A" letter-spacing="0.03em">ACTIVITIES</text>`;
+  out += `<text x="${W-padR+8}" y="${padT-16}" text-anchor="start" font-family="IBM Plex Mono" font-size="8" fill="#046B99" letter-spacing="0.03em">% DONE</text>`;
+
+  const cats = [ ["complete","Complete","#2E7D4F"], ["onTrack","On Track","#3689AD"], ["atRisk","At Risk","#B5790F"], ["offTrack","Off Track","#9E2E23"] ];
+  const linePts = [];
+  activityQuarters.forEach((q,qi)=>{
+    const groupX = padL + qi*groupW + groupW/2;
+    const barX = groupX - barW/2;
+    const total = cats.reduce((s,[key])=>s+q[key],0);
+    const baseline = padT + plotH;
+    let cursorY = baseline;
+    cats.forEach(([key,label,color])=>{
+      const val = q[key];
+      const rawH = (val/maxCount)*plotH;
+      const segH = Math.max(rawH - gap, 1);
+      const y = cursorY - rawH + gap/2;
+      out += `<rect x="${barX}" y="${y}" width="${barW}" height="${segH}" fill="${color}" rx="3"><title>${label}: ${val}</title></rect>`;
+      if(segH >= 15){
+        out += `<text x="${groupX}" y="${y+segH/2+3.5}" text-anchor="middle" font-family="IBM Plex Mono" font-weight="700" font-size="10" fill="#fff">${val}</text>`;
+      }
+      cursorY -= rawH;
+    });
+    // total count label above the stack
+    out += `<text x="${groupX}" y="${baseline-plotH*(total/maxCount)-10}" text-anchor="middle" font-family="IBM Plex Mono" font-weight="700" font-size="10.5" fill="#023A53">${total}</text>`;
+    // quarter label below
+    out += `<text x="${groupX}" y="${H-16}" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#5B616A">${q.label}</text>`;
+    const lineY = padT + plotH*(1 - q.pctComplete/100);
+    linePts.push([groupX, lineY]);
+  });
+
+  // % complete trend line, drawn over the bars
+  const linePath = linePts.map(p=>p.join(',')).join(' ');
+  out += `<polyline points="${linePath}" fill="none" stroke="#023A53" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+  linePts.forEach((p,i)=>{
+    out += `<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="#fff" stroke="#023A53" stroke-width="2.5"/>`;
+    const labelAbove = p[1] > padT + 16;
+    const ly = labelAbove ? p[1]-11 : p[1]+18;
+    out += `<rect x="${p[0]-19}" y="${ly-11}" width="38" height="16" rx="4" fill="#023A53"/>`;
+    out += `<text x="${p[0]}" y="${ly+1}" text-anchor="middle" font-family="IBM Plex Mono" font-weight="700" font-size="9.5" fill="#fff">${activityQuarters[i].pctComplete}%</text>`;
+  });
+  svg.innerHTML = out;
+}
+buildActivityChart();
+
+/* ============================================================
+   RISK RESPONSE — Activity list (real critical activities from EMT deck slides 7–11)
+   ============================================================ */
+const riskDomainByName = Object.fromEntries(risks.map(r=>[r.cat, r.status]));
+const activityAccordion = document.getElementById('activity-accordion');
+activities.forEach((a,i)=>{
+  const row = document.createElement('div');
+  row.className = 'accordion-row';
+  const linkedHtml = a.linkedRisks.map(name=>{
+    const st = riskDomainByName[name] || "green";
+    return `<span class="risk-chip chip-${st}">${name}</span>`;
+  }).join('');
+  const subRowsHtml = a.subActivities.map(sa=>{
+    const dots = Array.from({length:5}, (_,d)=> `<span class="cq-dot ${d < sa.consequence ? 'on':''}"></span>`).join('');
+    return `
+      <tr>
+        <td class="sat-name">${sa.name}</td>
+        <td class="mono" style="font-weight:700;">${sa.pct}%</td>
+        <td><span class="status-pill status-${sa.status}">${statusPillLabel[sa.status]}</span></td>
+        <td class="sat-notes">${sa.progress}</td>
+        <td class="sat-notes">${sa.notes}</td>
+        <td><span class="assoc-risk-chip">${sa.assocRisk}</span></td>
+        <td><div class="consequence-dots" title="Consequence score ${sa.consequence} of 5 (illustrative)">${dots}</div></td>
+        <td><span class="lead-flag ${sa.leadershipAttention?'yes':'no'}">${sa.leadershipAttention? 'Flagged':'No flag'}</span></td>
+      </tr>`;
+  }).join('');
+  row.innerHTML = `
+    <div class="activity-head" data-idx="${i}">
+      <span class="accordion-caret">▶</span>
+      <span class="accordion-name">${a.name}</span>
+      <span class="activity-owner">${a.owner}</span>
+      <span class="activity-status-col"><span class="status-pill status-${a.status}">${statusPillLabel[a.status]}</span></span>
+      <span class="activity-linked-col">${linkedHtml}</span>
+    </div>
+    <div class="activity-detail">
+      <table class="sub-activity-table">
+        <thead><tr><th>Critical Activity</th><th>% Done</th><th>Status</th><th>Progress</th><th>Notes / Associated Risk</th><th>Associated Risk</th><th>Consequence</th><th>Leadership Attention</th></tr></thead>
+        <tbody>${subRowsHtml}</tbody>
+      </table>
+    </div>
+  `;
+  activityAccordion.appendChild(row);
+});
+document.querySelectorAll('#activity-accordion .activity-head').forEach(h=>{
+  h.addEventListener('click', ()=> h.closest('.accordion-row').classList.toggle('open'));
+});
+
+/* ============================================================
+   SCENARIO INTELLIGENCE DATA (from Apr 2026 LTP deck, slides 5, 6, 12–13)
+   ============================================================ */
+const scenarios = [
+  { letter:"A", name:"Calm & Constrained", axis:"Manageable × Over Budget", likelihood:22, tag:"dormant",
+    signposts:[
+      {text:"#7 Cost Volatility ▲", title:"ENR Construction Cost Index trending upward", status:"active"},
+      {text:"#11 Federal Funding ▼", title:"Federal water infrastructure funding declining YoY", status:"active"},
+      {text:"#13 CA Fiscal Env. ➔", title:"State fiscal conditions tightening", status:"watch"},
+    ],
+    linkedRisks:["Long-Term Planning","Internal Governance & Operating Model","Data Governance"] },
+  { letter:"B", name:"Chaotic & Capable", axis:"Unstable × In Budget", likelihood:18, tag:"watch",
+    signposts:[
+      {text:"#1 Disaster Declarations ▲", title:"Major CA disaster declarations rising, response capacity holding", status:"watch"},
+      {text:"#3 Extreme Heat ▲", title:"Extreme heat days increasing YoY", status:"watch"},
+      {text:"#12 State Funding ➔", title:"State infrastructure funding holding steady", status:"dormant"},
+    ],
+    linkedRisks:["Emergency Management","Major Systems Implementation","Innovation"] },
+  { letter:"C", name:"Chaotic & Constrained", axis:"Unstable × Over Budget", likelihood:41, tag:"emerging",
+    signposts:[
+      {text:"#1 Disaster Declarations ▲", title:"Major CA disaster declarations up sharply", status:"active"},
+      {text:"#2 Precipitation ▼", title:"Running well below the 10-year baseline", status:"active"},
+      {text:"#9 Electricity Cost ▲", title:"CAISO wholesale prices trending higher", status:"watch"},
+    ],
+    linkedRisks:["Emergency Management","Reliance on Third Parties","External Disruption","Public Perception & Trust","Major Systems Implementation"] },
+  { letter:"D", name:"Calm & Capable", axis:"Manageable × In Budget", likelihood:19, tag:"dormant",
+    signposts:[
+      {text:"#2 Precipitation ➔", title:"Tracking near or above historical average", status:"watch"},
+      {text:"#11 Federal Funding ➔", title:"Federal water infrastructure funding holding steady", status:"dormant"},
+      {text:"#16 Water Allocation Regs ➔", title:"No major new water allocation regulations introduced", status:"dormant"},
+    ],
+    linkedRisks:["Innovation","AI Strategy and Governance","Knowledge Management"] },
+];
+
+const allSignposts = [
+  { id:1, source:"Gov. Office of Emergency Services", name:"Disaster Declarations (12 mo.)", value:"+9", trend:"▲ +3 vs. prior 12 mo.", category:"Environmental", favors:["B","C"], synthesis:"Rising disasters favor Chaotic scenarios" },
+  { id:2, source:"CDEC Precipitation", name:"Precipitation vs. avg.", value:"-18%", trend:"Below 10-yr baseline", category:"Environmental", favors:["B","C"], synthesis:"Below-average rainfall favors Chaotic scenarios" },
+  { id:3, source:"NOAA Climate Data", name:"Extreme heat days ≥95°F", value:"+11 days", trend:"YoY increase", category:"Environmental", favors:["B","C"], synthesis:"More heat days favor Chaotic scenarios" },
+  { id:4, source:"CAISO OASIS", name:"Grid emergency alerts (12 mo.)", value:"5", trend:"Flat vs. prior period", category:"Environmental", favors:[], synthesis:"Flat reading — no strong signal yet" },
+  { id:5, source:"Internal SWP Data", name:"SWP infrastructure project delays", value:"34%", trend:"of projects delayed, 12 mo.", category:"Construction & Costs", favors:["A","C"], synthesis:"Delays favor Constrained scenarios" },
+  { id:6, source:"Statewide Infra Tracking", name:"CA infrastructure project delays", value:"7", trend:"delayed projects, 12 mo.", category:"Construction & Costs", favors:["A","C"], synthesis:"Delays favor Constrained scenarios" },
+  { id:7, source:"ENR Construction Cost Index", name:"Cost volatility (ENR CCI)", value:"+6.2%", trend:"YoY increase", category:"Construction & Costs", favors:["A","C"], synthesis:"Rising costs favor Constrained scenarios" },
+  { id:8, source:"CA Labor Market Data", name:"Cost of labor", value:"+4.1%", trend:"YoY increase", category:"Construction & Costs", favors:["A","C"], synthesis:"Rising labor costs favor Constrained scenarios" },
+  { id:9, source:"CAISO Daily Outlook", name:"Wholesale electricity price", value:"+12%", trend:"YoY increase", category:"Power Costs", favors:["A","C"], synthesis:"Rising power costs favor Constrained scenarios" },
+  { id:10, source:"CAISO OASIS", name:"Peak demand days", value:"6", trend:"days exceeding historical peak", category:"Power Costs", favors:["A","C"], synthesis:"Elevated demand favors Constrained scenarios" },
+  { id:11, source:"USA Spending", name:"Federal water infra funding", value:"-8%", trend:"YoY change in allocations", category:"Funding", favors:["A","C"], synthesis:"Declining funding favors Constrained scenarios" },
+  { id:12, source:"CA State Budget", name:"State water infra funding", value:"+3%", trend:"YoY change in allocations", category:"Funding", favors:["B","D"], synthesis:"Stable funding favors Capable scenarios" },
+  { id:13, source:"CA Dept. of Finance", name:"State fiscal conditions", value:"Tightening", trend:"YoY trend", category:"Funding", favors:["A","C"], synthesis:"Tightening conditions favor Constrained scenarios" },
+  { id:14, source:"CA Regulatory Filings", name:"Environmental & habitat regs", value:"5", trend:"new regulations, 12 mo.", category:"Regulatory", favors:["A","C"], synthesis:"New rules favor Constrained scenarios" },
+  { id:15, source:"CA Regulatory Filings", name:"Seismic retrofit requirements", value:"2", trend:"new regulations, 12 mo.", category:"Regulatory", favors:["A","C"], synthesis:"New rules favor Constrained scenarios" },
+  { id:16, source:"CA Regulatory Filings", name:"Water supply & allocation regs", value:"1", trend:"new regulation, 12 mo.", category:"Regulatory", favors:["A","C"], synthesis:"New rules favor Constrained scenarios" },
+  { id:17, source:"CA Regulatory Filings", name:"Water quality regulations", value:"3", trend:"new regulations, 12 mo.", category:"Regulatory", favors:["A","C"], synthesis:"New rules favor Constrained scenarios" },
+  { id:18, source:"CA Courts", name:"Water/environmental litigation", value:"9", trend:"new cases filed, 12 mo.", category:"Regulatory", favors:["A","C"], synthesis:"Rising litigation favors Constrained scenarios" },
+];
+const signpostById = Object.fromEntries(allSignposts.map(s=>[s.id, s]));
+const synthesisCategoryOrder = ["Environmental","Construction & Costs","Power Costs","Funding","Regulatory"];
+
+/* ============ scenario detail cards ============ */
+const scenarioGrid = document.getElementById('scenario-grid');
+const riskStatusByName = Object.fromEntries(risks.map(r=>[r.cat, r.status]));
+scenarios.forEach(s=>{
+  const card = document.createElement('div');
+  card.className = 'scenario-card' + (s.tag==="emerging" ? " emerging":"");
+  const badgeClass = s.tag==="emerging" ? "act-emerging" : s.tag==="watch" ? "act-watch" : "act-dormant";
+  const badgeLabel = s.tag==="emerging" ? "Emerging" : s.tag==="watch" ? "Watch" : "Dormant";
+  const signpostHtml = s.signposts.map(sp=>{
+    const dotClass = sp.status==="active" ? "sp-active" : sp.status==="watch" ? "sp-watch" : "sp-dormant";
+    return `<span class="sp-chip" title="${sp.title}"><span class="sp-dot ${dotClass}"></span>${sp.text}</span>`;
+  }).join('');
+  const chipHtml = s.linkedRisks.map(name=>{
+    const st = riskStatusByName[name] || "green";
+    return `<span class="risk-chip chip-${st}">${name}</span>`;
+  }).join('');
+  card.innerHTML = `
+    <div class="scenario-head">
+      <div><div class="scenario-name">${s.letter}) ${s.name}</div><div class="scenario-quadrant">${s.axis}</div></div>
+      <span class="activation-badge ${badgeClass}"><span class="badge-label">${badgeLabel}</span><span class="badge-pct">${s.likelihood}%</span></span>
+    </div>
+    <div class="signpost-row">${signpostHtml}</div>
+    <div class="linked-risks">${chipHtml}</div>
+  `;
+  scenarioGrid.appendChild(card);
+});
+
+/* ============ Active Signposts table ============ */
+const activeTbody = document.getElementById('active-tbody');
+const activeRows = [];
+scenarios.forEach(s=>{
+  s.signposts.forEach(sp=>{
+    if(sp.status === "active"){
+      const idMatch = sp.text.match(/#(\d+)/);
+      if(idMatch) activeRows.push({ id: Number(idMatch[1]), scenario: s });
+    }
+  });
+});
+activeRows.forEach((row)=>{
+  const info = signpostById[row.id];
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="sig-num">${info.id}</td>
+    <td><div class="sig-name">${info.name}</div><div class="sig-axis">${info.source}</div></td>
+    <td class="mono" style="font-weight:700; font-size:16px;">${info.value} <span style="font-weight:400; color:var(--slate-soft); font-size:12px;">${info.trend}</span></td>
+    <td><span class="sig-name" style="font-size:14.5px;">${row.scenario.letter}) ${row.scenario.name}</span></td>
+  `;
+  activeTbody.appendChild(tr);
+});
+
+/* ============ Signpost Monitoring (one panel, click-through category pills) ============ */
+const synthContainer = document.getElementById('synthesis-container');
+const catPillRow = document.getElementById('cat-pill-row');
+const fullScenarioName = { A:"Calm & Constrained", B:"Chaotic & Capable", C:"Chaotic & Constrained", D:"Calm & Capable" };
+
+function renderSynthCategory(cat){
+  synthContainer.innerHTML = '';
+  synthContainer.classList.remove('synth-grid'); void synthContainer.offsetWidth; synthContainer.classList.add('synth-grid'); // restart fade-in animation
+  const items = allSignposts.filter(sp=>sp.category===cat);
+  items.forEach(sp=>{
+    const card = document.createElement('div');
+    card.className = 'synth-card';
+    const favorHtml = sp.favors.length
+      ? `${sp.synthesis} <span class="favor-letters">(${sp.favors.join(', ')})</span>`
+      : sp.synthesis;
+    card.innerHTML = `
+      <div class="synth-card-src">#${sp.id} · ${sp.source}</div>
+      <div class="synth-card-name">${sp.name}</div>
+      <div class="synth-card-value">${sp.value}</div>
+      <div class="synth-card-sub">${sp.trend}</div>
+      <div class="favor-line" title="${sp.favors.map(l=>fullScenarioName[l]).join(' / ')}">${favorHtml}</div>
+    `;
+    synthContainer.appendChild(card);
+  });
+}
+
+synthesisCategoryOrder.forEach((cat,i)=>{
+  const count = allSignposts.filter(sp=>sp.category===cat).length;
+  const pill = document.createElement('button');
+  pill.className = 'cat-pill' + (i===0 ? ' active' : '');
+  pill.innerHTML = `${cat} <span class="cnt">${count}</span>`;
+  pill.addEventListener('click', ()=>{
+    document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+    pill.classList.add('active');
+    renderSynthCategory(cat);
+  });
+  catPillRow.appendChild(pill);
+});
+renderSynthCategory(synthesisCategoryOrder[0]);
+
+/* ============ Scenario Radar ============ */
+let radarBubbleMeta = [];
+function buildRadar(){
+  const svg = document.getElementById('radar-svg');
+  const cx=180, cy=180, maxR=100;
+  radarBubbleMeta = [];
+  let out = "";
+  [0.3,0.62,1].forEach(f=>{ out += `<circle cx="${cx}" cy="${cy}" r="${maxR*f}" fill="none" stroke="#D7E6EC" stroke-width="1"/>`; });
+  out += `<line x1="${cx}" y1="${cy-maxR-8}" x2="${cx}" y2="${cy+maxR+8}" stroke="#D7E6EC" stroke-width="1"/>`;
+  out += `<line x1="${cx-maxR-8}" y1="${cy}" x2="${cx+maxR+8}" y2="${cy}" stroke="#D7E6EC" stroke-width="1"/>`;
+  out += `<text x="${cx}" y="16" text-anchor="middle" class="radar-axis-label">Manageable Disasters</text>`;
+  out += `<text x="${cx}" y="352" text-anchor="middle" class="radar-axis-label">Unstable Disasters</text>`;
+  out += `<text x="14" y="${cy+3}" text-anchor="start" class="radar-axis-label" transform="rotate(-90 18 ${cy})">In Budget</text>`;
+  out += `<text x="346" y="${cy+3}" text-anchor="end" class="radar-axis-label" transform="rotate(90 342 ${cy})">Over Budget</text>`;
+  const statusStyle = {
+    active: { r: 16, dist: 0.92, fill:"#9E2E23", soft:"rgba(158,46,35,0.16)" },
+    watch:  { r: 12, dist: 0.60, fill:"#B5790F", soft:"rgba(181,121,15,0.16)" },
+    dormant:{ r: 9,  dist: 0.28, fill:"#9AAAB3", soft:"rgba(154,170,179,0.18)" },
+  };
+  const quadrantDir = { A:[1,-1], B:[-1,1], C:[1,1], D:[-1,-1] };
+  const labelDir = { A:[1,-1], B:[-1,1], C:[1,1], D:[-1,-1] };
+  scenarios.forEach(s=>{
+    const [dx,dy] = quadrantDir[s.letter];
+    const baseAngle = Math.atan2(dy,dx);
+    const spread = [-0.42, 0, 0.42];
+    s.signposts.forEach((sp,i)=>{
+      const st = statusStyle[sp.status];
+      const angle = baseAngle + spread[i];
+      const r = st.dist * maxR;
+      const x = cx + Math.cos(angle)*r;
+      const y = cy + Math.sin(angle)*r;
+      const idMatch = sp.text.match(/#(\d+)/);
+      const idNum = idMatch ? Number(idMatch[1]) : null;
+      const idLabel = idMatch ? idMatch[1] : "•";
+      const bubbleIdx = radarBubbleMeta.length;
+      const info = idNum ? signpostById[idNum] : null;
+      radarBubbleMeta.push({
+        idNum, idLabel, status: sp.status, desc: sp.title,
+        source: info ? info.source : "", name: info ? info.name : sp.text,
+        value: info ? info.value : "", trend: info ? info.trend : "",
+        scenarioName: `${s.letter}) ${s.name}`,
+      });
+      out += `<circle cx="${x}" cy="${y}" r="${st.r+4}" fill="${st.soft}"/>`;
+      out += `<circle id="rb-${bubbleIdx}" cx="${x}" cy="${y}" r="${st.r}" fill="${st.fill}"/>`;
+      out += `<text x="${x}" y="${y+3.5}" text-anchor="middle" fill="#fff" font-family="IBM Plex Mono" font-weight="700" font-size="9.5" pointer-events="none">${idLabel}</text>`;
+    });
+    const [lx,ly] = labelDir[s.letter];
+    const labelR = maxR + 30;
+    const nx = cx + lx*labelR*0.78;
+    const ny = cy + ly*labelR*0.78;
+    const anchor = lx < 0 ? "start" : "end";
+    const textX = lx < 0 ? nx - 6 : nx + 6;
+    const nameColor = s.tag==="emerging" ? "var(--red)" : "var(--navy)";
+    const [firstWord, secondWord] = s.name.split(" & ");
+    out += `<text x="${textX}" y="${ny}" text-anchor="${anchor}" fill="${nameColor}" font-family="Source Serif 4" font-weight="700" font-size="13">
+      <tspan x="${textX}" dy="0">${s.letter}) ${firstWord} &amp;</tspan>
+      <tspan x="${textX}" dy="15">${secondWord}</tspan>
+    </text>`;
+    out += `<text x="${textX}" y="${ny+34}" text-anchor="${anchor}" fill="var(--slate-soft)" font-family="IBM Plex Mono" font-size="10.5">${s.likelihood}% likelihood</text>`;
+  });
+  svg.innerHTML = out;
+}
+buildRadar();
+attachRadarTooltips();
+
+/* ============ Radar bubble tooltip (hover + click/tap) ============ */
+function attachRadarTooltips(){
+  const wrap = document.querySelector('.radar-svg-wrap');
+  const tooltip = document.getElementById('radar-tooltip');
+  document.body.appendChild(tooltip); // escape any overflow:hidden ancestor entirely
+  const statusLabelMap = { active:"Active", watch:"Watch", dormant:"Dormant" };
+  const statusColorMap = {
+    active:  { bg:"rgba(158,46,35,0.35)", fg:"#F5C6C0" },
+    watch:   { bg:"rgba(181,121,15,0.35)", fg:"#F2D9A8" },
+    dormant: { bg:"rgba(154,170,179,0.35)", fg:"#DCE3E6" },
+  };
+  function showTooltip(circle){
+    const idx = Number(circle.id.split('-')[1]);
+    const m = radarBubbleMeta[idx];
+    if(!m) return;
+    const sc = statusColorMap[m.status];
+    const readingHtml = m.value ? `<div class="radar-tooltip-desc" style="margin-top:6px;">Current: <strong>${m.value}</strong>${m.trend ? ' — ' + m.trend : ''}</div>` : '';
+    tooltip.innerHTML = `
+      <div class="radar-tooltip-id">#${m.idLabel}${m.source ? ' · ' + m.source : ''}</div>
+      <div class="radar-tooltip-name">${m.name}</div>
+      <div class="radar-tooltip-desc">${m.desc}</div>
+      ${readingHtml}
+      <span class="radar-tooltip-status" style="background:${sc.bg}; color:${sc.fg};">${statusLabelMap[m.status]} · ${m.scenarioName}</span>
+    `;
+    const circleRect = circle.getBoundingClientRect();
+    const margin = 12;
+    const tooltipWidth = 220;
+    // measure actual rendered height now that content is set (varies by description length)
+    const tooltipHeight = tooltip.offsetHeight || 130;
+
+    // horizontal: prefer right of the bubble; flip to the left if it would run off the viewport
+    let left = circleRect.left + circleRect.width/2 + 14;
+    if(left + tooltipWidth + margin > window.innerWidth){
+      left = circleRect.left - tooltipWidth - 14;
+    }
+    left = Math.max(margin, Math.min(left, window.innerWidth - tooltipWidth - margin));
+
+    // vertical: prefer aligned with the bubble; clamp within the viewport top/bottom
+    let top = circleRect.top - 6;
+    if(top + tooltipHeight + margin > window.innerHeight){
+      top = window.innerHeight - tooltipHeight - margin;
+    }
+    top = Math.max(margin, top);
+
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+    tooltip.classList.add('visible');
+  }
+  function hideTooltip(){ tooltip.classList.remove('visible'); }
+
+  wrap.querySelectorAll('circle[id^="rb-"]').forEach(c=>{
+    c.addEventListener('mouseenter', ()=> showTooltip(c));
+    c.addEventListener('mouseleave', hideTooltip);
+    c.addEventListener('click', (e)=>{ e.stopPropagation(); showTooltip(c); });
+  });
+  document.addEventListener('click', hideTooltip);
+  window.addEventListener('scroll', hideTooltip, true);
+}
+
+/* ============================================================
+   EXTERNAL RISK TRENDS
+   ============================================================ */
+const trendCards = [
+  { headline:"Golden mussel confirmed at second Delta intake", severity:"High", term:"near", tags:["operational","strategic","financial"], source:"Sacramento Bee", date:"Jul 28", risks:["R-10","R-07","R-02"] },
+  { headline:"CISA advisory: water sector OT/SCADA vulnerabilities under active exploitation", severity:"High", term:"near", tags:["cyber","operational"], source:"CISA", date:"Jul 25", risks:["R-17","R-20"] },
+  { headline:"SWRCB opens comment period on revised Delta conveyance environmental review", severity:"Medium", term:"near", tags:["regulatory","strategic"], source:"SWRCB", date:"Jul 22", risks:["R-08","R-03"] },
+  { headline:"NOAA projects below-average Sierra snowpack; drought watch reinstated", severity:"Medium", term:"near", tags:["climate","operational","strategic"], source:"NOAA", date:"Jul 19", risks:["R-06","R-03"] },
+  { headline:"Governor's budget proposes 12% DWR operations cut; capital project timelines under review", severity:"Medium", term:"medium", tags:["financial","strategic"], source:"DOF", date:"Jul 15", risks:["R-02","R-03"] },
+  { headline:"AWIA reauthorization bill advances; expanded RRA requirements proposed for Tier 1 utilities", severity:"Watch", term:"medium", tags:["regulatory","strategic"], source:"Federal Register", date:"Jul 10", risks:["R-12","R-08"] },
+];
+const riskById = Object.fromEntries(risks.map(r=>[r.id, r]));
+const sevClass = { High:"sev-high", Medium:"sev-medium", Watch:"sev-watch" };
+
+const ertGrid = document.getElementById('ert-grid');
+function renderErtGrid(){
+  ertGrid.innerHTML = '';
+  trendCards.forEach(card=>{
+    if(activeSeverityFilter==="High" && card.severity!=="High") return;
+    if(activeSeverityFilter==="near" && card.term!=="near") return;
+    if(activeRiskFilter && !card.risks.includes(activeRiskFilter)) return;
+    const el = document.createElement('div');
+    el.className = 'ert-card';
+    const tagsHtml = card.tags.map(t=>`<span class="ert-tag t-${t}">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('');
+    const riskChipsHtml = card.risks.map(rid=>{
+      const r = riskById[rid];
+      return `<span class="risk-chip" title="${rid}${r ? ' · ' + r.cat : ''}">${r ? chipLabel(r) : rid}</span>`;
+    }).join('');
+    el.innerHTML = `
+      <div class="ert-card-top">
+        <span class="sev-badge ${sevClass[card.severity]}">${card.severity}</span>
+        <span class="sev-dot ${sevClass[card.severity]}"></span>
+      </div>
+      <div class="ert-headline">${card.headline}</div>
+      <div class="ert-tags">${tagsHtml}</div>
+      <div class="ert-source">${card.source} · ${card.date}</div>
+      <div class="ert-linked">${riskChipsHtml}</div>
+    `;
+    ertGrid.appendChild(el);
+  });
+}
+
+let activeSeverityFilter = "all";
+let activeRiskFilter = null;
+document.querySelectorAll('#severity-filters .filter-pill').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#severity-filters .filter-pill').forEach(b=>b.classList.remove('active','sev-high'));
+    btn.classList.add('active');
+    activeSeverityFilter = btn.dataset.filter;
+    if(activeSeverityFilter==="High") btn.classList.add('sev-high');
+    renderErtGrid();
+  });
+});
+
+const riskFilterRow = document.getElementById('risk-filter-row');
+const usedRiskIds = [...new Set(trendCards.flatMap(c=>c.risks))].sort();
+/* Short labels for the filter chips — full names shown via tooltip (title). */
+const riskAbbrev = {
+  "Financing and Rising Costs": "Financing & Costs",
+  "Climate Change Adaptation": "Climate Adaptation",
+  "Compliance Requirements": "Compliance Reqs.",
+  "Major Systems Implementation": "Major Systems Impl.",
+  "Internal Governance & Operating Model": "Internal Governance",
+  "Workforce Attraction & Retention": "Workforce Attraction",
+  "Project Prioritization & Delivery": "Project Prioritization",
+};
+function chipLabel(r){ return riskAbbrev[r.cat] || r.cat; }
+const allChip = document.createElement('button');
+allChip.className = 'risk-filter-chip active';
+allChip.textContent = 'All';
+allChip.addEventListener('click', ()=>{
+  activeRiskFilter = null;
+  document.querySelectorAll('.risk-filter-chip').forEach(c=>c.classList.remove('active'));
+  allChip.classList.add('active');
+  renderErtGrid();
+});
+riskFilterRow.appendChild(allChip);
+usedRiskIds.forEach(rid=>{
+  const r = riskById[rid];
+  const chip = document.createElement('button');
+  chip.className = 'risk-filter-chip';
+  chip.textContent = r ? chipLabel(r) : rid;
+  chip.title = r ? `${rid} · ${r.cat}` : rid;
+  chip.addEventListener('click', ()=>{
+    activeRiskFilter = rid;
+    document.querySelectorAll('.risk-filter-chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    renderErtGrid();
+  });
+  riskFilterRow.appendChild(chip);
+});
+renderErtGrid();
+
+/* ============================================================
+   EXECUTIVE SUMMARY — goals, risk buckets, initiative summary, top trends
+   ============================================================ */
+const strategicGoals = [
+  "Advance an industry-leading safety culture",
+  "Be the employer of choice",
+  "Accelerate adaptation and strengthen resiliency for a changing climate",
+  "Promote awareness of the State Water Project's significance",
+  "Optimize infrastructure, financial integrity, and operations",
+];
+const goalStrip = document.getElementById('goal-strip');
+strategicGoals.forEach((g,i)=>{
+  const tile = document.createElement('div');
+  tile.className = 'goal-tile';
+  tile.innerHTML = `<div class="goal-num">${i+1}</div><div class="goal-name">${g}</div>`;
+  goalStrip.appendChild(tile);
+});
+
+/* Risk buckets: count + trend rollup per categorization tier, computed live from `risks` */
+const bucketMeta = [
+  { tier:"immediate", name:"Immediate", color:"var(--cat-immediate)" },
+  { tier:"elevated", name:"Elevated", color:"var(--cat-elevated)" },
+  { tier:"continued", name:"Continued", color:"var(--cat-continued)", textColor:"var(--navy)" },
+];
+const bucketStrip = document.getElementById('bucket-strip');
+bucketMeta.forEach(b=>{
+  const group = risks.filter(r=>r.tier===b.tier);
+  const trendCounts = {};
+  group.forEach(r=>{ trendCounts[r.realTrend] = (trendCounts[r.realTrend]||0) + 1; });
+  const trendOrder = ["Increasing","No Change","Decreasing","Pending"];
+  const rows = trendOrder.filter(t=>trendCounts[t]).map(t=>{
+    const arrow = t==="Increasing" ? "▲" : t==="Decreasing" ? "▼" : t==="Pending" ? "…" : "➔";
+    const cls = t==="Increasing" ? "trend-inc" : t==="Decreasing" ? "trend-dec" : t==="Pending" ? "trend-pend" : "trend-nochange";
+    return `<div class="bucket-trend-item"><span>${arrow} ${t}</span><span class="cnt ${cls}">${trendCounts[t]}</span></div>`;
+  }).join('');
+  const card = document.createElement('div');
+  card.className = 'bucket-card';
+  card.innerHTML = `
+    <div class="bucket-head" style="background:${b.color}">
+      <span class="bucket-head-name" style="${b.textColor ? 'color:'+b.textColor : ''}">${b.name}</span>
+      <span class="bucket-head-count" style="${b.textColor ? 'color:'+b.textColor : ''}">${group.length}</span>
+    </div>
+    <div class="bucket-body">
+      <div class="bucket-body-label">Risk Management Trend</div>
+      <div class="bucket-trend-row">${rows}</div>
+    </div>
+  `;
+  bucketStrip.appendChild(card);
+});
+
+/* Initiative summary — same real Slide 4 numbers used in Risk Response */
+document.getElementById('initiative-summary-tiles').innerHTML = `
+  <div class="stat-tile"><div class="stat-num on">2</div><div class="stat-label">"Complete"<br>Initiatives</div></div>
+  <div class="stat-tile"><div class="stat-num" style="color:var(--blue-light)">19</div><div class="stat-label">"On Track"<br>Initiatives</div></div>
+  <div class="stat-tile"><div class="stat-num risk">3</div><div class="stat-label">"At Risk"<br>Initiatives</div></div>
+  <div class="stat-tile"><div class="stat-num off">2</div><div class="stat-label">"Off Track"<br>Initiatives</div></div>
+`;
+document.getElementById('initiative-insight').textContent =
+  "21 of 26 strategic initiatives (81%) are Complete or On Track, up from 19 of 26 in April. See Risk Response for full activity-level detail.";
+
+/* Top external trends — highest-severity items only, compact */
+const miniTrendList = document.getElementById('mini-trend-list');
+const topTrends = [...trendCards].filter(c=>c.severity==="High").slice(0,3);
+(topTrends.length ? topTrends : trendCards.slice(0,3)).forEach(card=>{
+  const el = document.createElement('div');
+  el.className = 'mini-trend-item';
+  el.innerHTML = `
+    <span class="sev-dot ${sevClass[card.severity]}"></span>
+    <span class="mini-trend-headline">${card.headline}</span>
+    <span class="mini-trend-meta">${card.source} · ${card.date}</span>
+  `;
+  miniTrendList.appendChild(el);
+});
+
+
+/* ============================================================
+   TAB SWITCHING
+   ============================================================ */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
